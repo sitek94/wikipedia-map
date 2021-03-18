@@ -1,11 +1,9 @@
-console.log('dsafsda')
+import Page from './components/Page'
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <h1>Wikipedia Map</h1>
-    </div>
+    <Page>
+      <div># TODO: {'<GoogleMap />'}</div>
+    </Page>
   )
 }
-
-export default App
