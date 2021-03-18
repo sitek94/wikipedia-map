@@ -1,9 +1,10 @@
 import Page from './components/Page'
+import GoogleMap from './components/GoogleMap'
 
 export default function App() {
   return (
     <Page>
-      <div># TODO: {'<GoogleMap />'}</div>
+      <GoogleMap />
     </Page>
   )
 }

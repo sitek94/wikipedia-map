@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Layout as AntLayout, Typography } from 'antd'
 
-const { Header, Content: AntContent, Footer: AntFooter } = AntLayout
+const { Header, Content, Footer: AntFooter } = AntLayout
 const { Text } = Typography
 
 export default function Page({ children }) {
@@ -19,15 +19,12 @@ export default function Page({ children }) {
 }
 
 const Layout = styled(AntLayout)`
-  min-height: 100vh;
+  height: 100vh;
   background-color: #ddd;
 `
 
 const Logo = styled.h1`
   color: #fff;
-`
-const Content = styled(AntContent)`
-  padding: 24px;
 `
 
 const Footer = styled(AntFooter)`
