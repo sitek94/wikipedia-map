@@ -1,7 +1,7 @@
 import * as React from 'react'
 import GoogleMapReact from 'google-map-react'
 
-import wikipedia from '../services/api/wikipedia'
+import wikipedia from 'services/api/wikipedia'
 
 const warsawCoord = {
   lat: 52.247744131869645,
