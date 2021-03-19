@@ -11,7 +11,7 @@ const defaultZoom = 11
 
 export default function GoogleMap() {
   React.useEffect(() => {
-    emit('mapLoaded')
+    emit('mapLoaded', { center: warsawCoord })
   }, [])
 
   return (

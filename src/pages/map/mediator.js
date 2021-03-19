@@ -1,3 +1,5 @@
+import wikipedia from 'services/api/wikipedia'
+
 const listeners = {}
 
 function attachListener(eventName, listener) {
@@ -15,12 +17,16 @@ function emit(eventName, args) {
 }
 
 function useMapMediator() {
-  function onMapLoaded(args) {
-    console.log('onMapLoaded', args)
+  async function onMapLoaded(event) {
+    const articles = await wikipedia.getArticles({ coord: event.center })
+
+    console.log('Map was loaded, articles: ', articles.query.geosearch)
   }
 
-  function onMapDragged(args) {
-    console.log('onMapDragged', args)
+  async function onMapDragged(event) {
+    const articles = await wikipedia.getArticles({ coord: event.center })
+
+    console.log('Map was dragged, articles: ', articles.query.geosearch)
   }
 
   attachListener('mapLoaded', onMapLoaded)
