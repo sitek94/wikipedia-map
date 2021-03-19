@@ -1,10 +1,5 @@
-import Page from 'components/Page'
-import GoogleMap from 'components/GoogleMap'
+import Map from 'pages/map'
 
 export default function App() {
-  return (
-    <Page>
-      <GoogleMap />
-    </Page>
-  )
+  return <Map />
 }
