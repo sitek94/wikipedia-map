@@ -1,11 +1,27 @@
 :root {
   --white: #fff;
+  --white-rgb: 255, 255, 255;
   --black: #000;
+  --black-rgb: 0, 0, 0;
 
-  --gray-1: #fafafa;
+  --gray-0: #fafafa;
+  --gray-1: #f5f6f7;
   --gray-2: #eee;
   --gray-3: #ddd;
 
+  --gray-8: #242526;
+  --gray-9: #18191a;
+
   --sunset-orange: #fa8c16;
   --orange-6: #ffa769;
+}
+
+body[data-theme='light'] {
+  --primary: var(--gray-9);
+  --secondary: var(--white);
+}
+
+body[data-theme='dark'] {
+  --primary: var(--white);
+  --secondary: var(--gray-9);
 }
