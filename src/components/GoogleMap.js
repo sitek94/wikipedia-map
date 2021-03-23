@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react'
 
 import { emit } from 'pages/map/mediator'
 import { useMapStore } from 'pages/map/store'
-import Marker from './Marker'
+import Marker from 'components/marker'
 
 const warsawCoord = {
   lat: 52.247744131869645,
@@ -25,8 +25,8 @@ export default function GoogleMap() {
       defaultZoom={defaultZoom}
       onChange={(event) => emit('mapDragged', event)}
     >
-      {markers.map(({ pageid, lat, lng }) => (
-        <Marker key={pageid} lat={lat} lng={lng} />
+      {markers.map(({ pageid, lat, lng, title }) => (
+        <Marker key={pageid} lat={lat} lng={lng} title={title} />
       ))}
     </GoogleMapReact>
   )
