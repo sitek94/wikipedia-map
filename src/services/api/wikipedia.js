@@ -12,7 +12,7 @@ const defaultParams = {
 }
 
 const wikipedia = {
-  getArticles({ coord, radius = 10000, limit = 10 } = {}) {
+  getArticles({ coord, radius = 10000, limit = 100 } = {}) {
     if (!coord) {
       console.error('Wikipedia API: no coord passed to getArticles')
     }
