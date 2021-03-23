@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import theme from 'theme'
 import { Layout as AntLayout, Typography } from 'antd'
 
 const { Header, Content, Footer: AntFooter } = AntLayout
@@ -20,13 +21,14 @@ export default function Page({ children }) {
 
 const Layout = styled(AntLayout)`
   height: 100vh;
-  background-color: #ddd;
+  background-color: ${theme.colors.gray_3};
 `
 
 const Logo = styled.h1`
-  color: #fff;
+  color: ${theme.colors.white};
 `
 
 const Footer = styled(AntFooter)`
   text-align: center;
+  background: ${theme.colors.gray_1};
 `
