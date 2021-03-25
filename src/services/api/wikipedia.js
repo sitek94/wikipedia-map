@@ -9,6 +9,8 @@ const client = ky.create({
 
 const defaultParams = {
   origin: '*',
+  action: 'query',
+  format: 'json',
 }
 
 const wikipedia = {
@@ -18,10 +20,7 @@ const wikipedia = {
     }
 
     const params = {
-      action: 'query',
       list: 'geosearch',
-      format: 'json',
-      origin: '*',
     }
 
     return client
@@ -32,6 +31,26 @@ const wikipedia = {
           gscoord: coord.lat + '|' + coord.lng,
           gsradius: radius,
           gslimit: limit,
+        },
+      })
+      .json()
+  },
+  getArticleInfo({ pageid }) {
+    if (!pageid) {
+      console.error('Wikipedia API: no pageid passed to getArticle')
+    }
+
+    const params = {
+      prop: 'info',
+      inprop: 'url',
+    }
+
+    return client
+      .get('', {
+        searchParams: {
+          ...defaultParams,
+          ...params,
+          pageids: pageid,
         },
       })
       .json()
