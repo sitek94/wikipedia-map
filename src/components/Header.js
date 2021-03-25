@@ -13,16 +13,25 @@ export default function Header({ children }) {
   const [{ isGoogleApiLoaded }] = useMapStore()
 
   React.useEffect(() => {
+    let searchBoxListener
+
     if (isGoogleApiLoaded) {
       const input = document.getElementById('search-box')
       const searchBox = new window.google.maps.places.SearchBox(input)
 
-      searchBox.addListener('places_changed', () => {
+      searchBoxListener = searchBox.addListener('places_changed', () => {
         const place = searchBox.getPlaces()[0]
         const coords = place.geometry.location.toJSON()
 
         emit('searchBoxPlaceClicked', { coords })
       })
+    }
+
+    // Cleanup - remove searchbox listener
+    return () => {
+      if (searchBoxListener) {
+        window.google.maps.event.removeListener(searchBoxListener)
+      }
     }
   }, [isGoogleApiLoaded])
 
