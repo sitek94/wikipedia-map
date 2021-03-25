@@ -4,6 +4,7 @@ import { Tooltip } from 'antd'
 
 import theme from 'theme'
 import getIconFromString from './get-icon-from-string'
+import { emit } from 'pages/map/mediator'
 
 const Circle = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ export default function Marker({ title }) {
 
   return (
     <Tooltip title={title}>
-      <Circle>{icon}</Circle>
+      <Circle onClick={() => emit('markerClicked')}>{icon}</Circle>
     </Tooltip>
   )
 }

@@ -8,6 +8,7 @@ const Store = createStore({
   initialState: {
     markers: [],
     isGoogleApiLoaded: false,
+    isModalVisible: false,
   },
   actions: {
     addMarkers: (markers) => ({ setState, getState }) => {
@@ -24,6 +25,11 @@ const Store = createStore({
     setIsGoogleApiLoaded: (isLoaded) => ({ setState, getState }) => {
       setState((draft) => {
         draft.isGoogleApiLoaded = isLoaded
+      })
+    },
+    setIsModalVisible: (isVisible) => ({ setState, getState }) => {
+      setState((draft) => {
+        draft.isModalVisible = isVisible
       })
     },
   },

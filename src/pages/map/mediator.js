@@ -28,7 +28,10 @@ function mapArticlesToMarkers(articles) {
 }
 
 function useMapMediator() {
-  const [, { addMarkers, setIsGoogleApiLoaded }] = useMapStore()
+  const [
+    ,
+    { addMarkers, setIsGoogleApiLoaded, setIsModalVisible },
+  ] = useMapStore()
 
   async function onMapLoaded(event) {
     const response = await wikipedia.getArticles({ coord: event.center })
@@ -58,10 +61,15 @@ function useMapMediator() {
     }
   }
 
+  function onMarkerClicked() {
+    setIsModalVisible(true)
+  }
+
   attachListener('mapLoaded', onMapLoaded)
   attachListener('mapDragged', onMapDragged)
   attachListener('googleApiLoaded', onGoogleApiLoaded)
   attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)
+  attachListener('markerClicked', onMarkerClicked)
 }
 
 function MapMediator() {
