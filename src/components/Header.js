@@ -1,15 +1,35 @@
+import * as React from 'react'
 import styled from 'styled-components'
-import { Layout } from 'antd'
+import { Input as AntInput, Layout } from 'antd'
 
 import theme from 'theme'
 import ThemeToggler from 'components/ThemeToggler'
+import { useMapStore } from 'pages/map/store'
+import { emit } from 'pages/map/mediator'
 
 const { Header: AntHeader } = Layout
 
 export default function Header({ children }) {
+  const [{ isGoogleApiLoaded }] = useMapStore()
+
+  React.useEffect(() => {
+    if (isGoogleApiLoaded) {
+      const input = document.getElementById('search-box')
+      const searchBox = new window.google.maps.places.SearchBox(input)
+
+      searchBox.addListener('places_changed', () => {
+        const place = searchBox.getPlaces()[0]
+        const coords = place.geometry.location.toJSON()
+
+        emit('searchBoxPlaceClicked', { coords })
+      })
+    }
+  }, [isGoogleApiLoaded])
+
   return (
     <Wrapper>
       <Logo>Wikipedia Map</Logo>
+      <SearchBox />
       <ThemeToggler />
     </Wrapper>
   )
@@ -17,7 +37,6 @@ export default function Header({ children }) {
 
 const Wrapper = styled(AntHeader)`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: ${theme.colors.secondary};
 `
@@ -25,4 +44,15 @@ const Wrapper = styled(AntHeader)`
 const Logo = styled.h1`
   color: ${theme.colors.primary};
   margin-bottom: 0;
+`
+
+const SearchBox = styled(AntInput).attrs({
+  id: 'search-box',
+  placeholder: 'Search',
+})`
+  width: 300px;
+  margin: 5px 20px;
+
+  /* Push items after the input to the right */
+  margin-right: auto;
 `

@@ -7,6 +7,7 @@ defaults.mutator = (currentState, producer) => produce(currentState, producer)
 const Store = createStore({
   initialState: {
     markers: [],
+    isGoogleApiLoaded: false,
   },
   actions: {
     addMarkers: (markers) => ({ setState, getState }) => {
@@ -18,6 +19,11 @@ const Store = createStore({
 
       setState((draft) => {
         draft.markers.push(...newMarkers)
+      })
+    },
+    setIsGoogleApiLoaded: (isLoaded) => ({ setState, getState }) => {
+      setState((draft) => {
+        draft.isGoogleApiLoaded = isLoaded
       })
     },
   },

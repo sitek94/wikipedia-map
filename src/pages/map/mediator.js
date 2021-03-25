@@ -2,6 +2,7 @@ import wikipedia from 'services/api/wikipedia'
 import { useMapStore } from './store'
 
 const listeners = {}
+let map
 
 function attachListener(eventName, listener) {
   listeners[eventName] = listener
@@ -27,7 +28,7 @@ function mapArticlesToMarkers(articles) {
 }
 
 function useMapMediator() {
-  const [, { addMarkers }] = useMapStore()
+  const [, { addMarkers, setIsGoogleApiLoaded }] = useMapStore()
 
   async function onMapLoaded(event) {
     const response = await wikipedia.getArticles({ coord: event.center })
@@ -45,8 +46,22 @@ function useMapMediator() {
     addMarkers(markers)
   }
 
+  function onGoogleApiLoaded({ map: mapInstance }) {
+    map = mapInstance
+
+    setIsGoogleApiLoaded(true)
+  }
+
+  function onSearchBoxPlaceClicked({ coords }) {
+    if (map) {
+      map.setCenter(coords)
+    }
+  }
+
   attachListener('mapLoaded', onMapLoaded)
   attachListener('mapDragged', onMapDragged)
+  attachListener('googleApiLoaded', onGoogleApiLoaded)
+  attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)
 }
 
 function MapMediator() {

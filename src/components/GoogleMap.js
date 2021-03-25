@@ -20,10 +20,15 @@ export default function GoogleMap() {
 
   return (
     <GoogleMapReact
-      bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
+      bootstrapURLKeys={{
+        key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+        libraries: ['places'],
+      }}
       defaultCenter={warsawCoord}
       defaultZoom={defaultZoom}
       onChange={(event) => emit('mapDragged', event)}
+      yesIWantToUseGoogleMapApiInternals
+      onGoogleApiLoaded={({ map }) => emit('googleApiLoaded', { map })}
     >
       {markers.map(({ pageid, lat, lng, title }) => (
         <Marker key={pageid} lat={lat} lng={lng} title={title} />
