@@ -25,12 +25,12 @@ const Circle = styled.div`
   }
 `
 
-export default function Marker({ title }) {
+export default function Marker({ pageid, title }) {
   const icon = getIconFromString(title)
 
   return (
     <Tooltip title={title}>
-      <Circle onClick={() => emit('markerClicked')}>{icon}</Circle>
+      <Circle onClick={() => emit('markerClicked', { pageid })}>{icon}</Circle>
     </Tooltip>
   )
 }

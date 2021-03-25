@@ -9,6 +9,10 @@ const Store = createStore({
     markers: [],
     isGoogleApiLoaded: false,
     isModalVisible: false,
+    currentArticle: {
+      title: '',
+      url: '',
+    },
   },
   actions: {
     addMarkers: (markers) => ({ setState, getState }) => {
@@ -30,6 +34,14 @@ const Store = createStore({
     setIsModalVisible: (isVisible) => ({ setState, getState }) => {
       setState((draft) => {
         draft.isModalVisible = isVisible
+      })
+    },
+    setCurrentArticle: ({ title, url }) => ({ setState, getState }) => {
+      setState((draft) => {
+        draft.currentArticle = {
+          title,
+          url,
+        }
       })
     },
   },

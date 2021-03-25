@@ -31,7 +31,13 @@ export default function GoogleMap() {
       onGoogleApiLoaded={({ map }) => emit('googleApiLoaded', { map })}
     >
       {markers.map(({ pageid, lat, lng, title }) => (
-        <Marker key={pageid} lat={lat} lng={lng} title={title} />
+        <Marker
+          key={pageid}
+          lat={lat}
+          lng={lng}
+          title={title}
+          pageid={pageid}
+        />
       ))}
     </GoogleMapReact>
   )

@@ -5,17 +5,20 @@ import { Modal as AntModal } from 'antd'
 import { useMapStore } from 'pages/map/store'
 
 export default function ArticleModal() {
-  const [{ isModalVisible }, { setIsModalVisible }] = useMapStore()
+  const [
+    { isModalVisible, currentArticle },
+    { setIsModalVisible },
+  ] = useMapStore()
 
   const handleCancel = () => {
     setIsModalVisible(false)
   }
 
+  const { title, url } = currentArticle
+
   return (
-    <Modal title="Basic Modal" visible={isModalVisible} onCancel={handleCancel}>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
-      <p>Some contents...</p>
+    <Modal title={title} visible={isModalVisible} onCancel={handleCancel}>
+      <p>{url}</p>
     </Modal>
   )
 }
