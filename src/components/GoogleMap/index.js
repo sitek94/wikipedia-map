@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react'
 import { emit } from 'pages/map/mediator'
 import { useMapStore } from 'pages/map/store'
 import Marker from 'components/marker'
+import styles from './styles'
 
 const warsawCoord = {
   lat: 52.247744131869645,
@@ -29,6 +30,9 @@ export default function GoogleMap() {
       onChange={(event) => emit('mapDragged', event)}
       yesIWantToUseGoogleMapApiInternals
       onGoogleApiLoaded={({ map }) => emit('googleApiLoaded', { map })}
+      options={{
+        styles: styles.light,
+      }}
     >
       {markers.map(({ pageid, lat, lng, title }) => (
         <Marker
