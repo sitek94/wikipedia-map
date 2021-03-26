@@ -43,6 +43,7 @@ export default function GoogleMap() {
           lng={lng}
           title={title}
           pageid={pageid}
+          color="blue"
         />
       ))}
     </GoogleMapReact>

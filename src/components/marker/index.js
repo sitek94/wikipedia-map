@@ -6,13 +6,25 @@ import theme from 'theme'
 import getIconFromString from './get-icon-from-string'
 import { emit } from 'pages/map/mediator'
 
-const Circle = styled.div`
+export default function Marker({ pageid, title, color = 'orange' }) {
+  const icon = getIconFromString(title)
+
+  return (
+    <Tooltip title={title}>
+      <IconBox color={color} onClick={() => emit('markerClicked', { pageid })}>
+        {icon}
+      </IconBox>
+    </Tooltip>
+  )
+}
+
+const IconBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   cursor: pointer;
-  color: ${theme.colors.sunset_orange};
+  color: ${(props) => theme.colors[props.color]};
   position: absolute;
   transform: scale(0.95) translate(-50%, -50%);
   transform-origin: 0 0;
@@ -24,13 +36,3 @@ const Circle = styled.div`
     opacity: 1;
   }
 `
-
-export default function Marker({ pageid, title }) {
-  const icon = getIconFromString(title)
-
-  return (
-    <Tooltip title={title}>
-      <Circle onClick={() => emit('markerClicked', { pageid })}>{icon}</Circle>
-    </Tooltip>
-  )
-}
