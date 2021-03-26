@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react'
 
 import { emit } from 'pages/map/mediator'
 import { useMapStore } from 'pages/map/store'
+import { useTheme } from 'theme'
 import Marker from 'components/marker'
 import styles from './styles'
 
@@ -14,6 +15,7 @@ const defaultZoom = 15.5
 
 export default function GoogleMap() {
   const [{ markers }] = useMapStore()
+  const { isThemeDark } = useTheme()
 
   React.useEffect(() => {
     emit('mapLoaded', { center: warsawCoord })
@@ -31,7 +33,7 @@ export default function GoogleMap() {
       yesIWantToUseGoogleMapApiInternals
       onGoogleApiLoaded={({ map }) => emit('googleApiLoaded', { map })}
       options={{
-        styles: styles.light,
+        styles: isThemeDark ? styles.dark : styles.light,
       }}
     >
       {markers.map(({ pageid, lat, lng, title }) => (
