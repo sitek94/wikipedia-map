@@ -32,14 +32,14 @@ export default function GoogleMap() {
         styles: isThemeDark ? styles.dark : styles.light,
       }}
     >
-      {markers.map(({ pageid, lat, lng, title, visited }) => (
+      {markers.map(({ pageid, lat, lng, title, color }) => (
         <Marker
           key={pageid}
           lat={lat}
           lng={lng}
           title={title}
           pageid={pageid}
-          color={visited ? 'blue' : 'orange'}
+          color={color}
         />
       ))}
     </GoogleMapReact>

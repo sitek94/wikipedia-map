@@ -1,5 +1,9 @@
 import wikipedia from 'services/api/wikipedia'
+import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
+
+const defaultMarkerColor = 'orange'
+const visitedMarkerColor = 'blue'
 
 const listeners = {}
 let map
@@ -27,12 +31,21 @@ function mapArticlesToMarkers(articles) {
   }))
 }
 
+function mapVisitedArticles(articles) {
+  return articles.map((article) => ({
+    ...article,
+    color: ArticlesDatabase.isArticleVisited(article.pageid)
+      ? visitedMarkerColor
+      : defaultMarkerColor,
+  }))
+}
+
 function useMapMediator() {
   const [
     ,
     {
       addMarkers,
-      setMarkerAsVisited,
+      setMarkerColor,
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
@@ -43,8 +56,9 @@ function useMapMediator() {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
     const markers = mapArticlesToMarkers(articles)
+    const markersMappedAsVisited = mapVisitedArticles(markers)
 
-    addMarkers(markers)
+    addMarkers(markersMappedAsVisited)
   }
 
   function onGoogleApiLoaded({ map: mapInstance }) {
@@ -63,13 +77,14 @@ function useMapMediator() {
     const response = await wikipedia.getArticleInfo({ pageid })
     const article = Object.values(response.query.pages)[0]
 
-    setMarkerAsVisited({ pageid })
-
+    setMarkerColor({ pageid, color: visitedMarkerColor })
     setIsModalVisible(true)
     setCurrentArticle({
       title: article.title,
       url: article.fullurl,
     })
+
+    ArticlesDatabase.setArticleAsVisited(pageid)
   }
 
   attachListener('mapDragged', onMapDragged)
