@@ -39,14 +39,6 @@ function useMapMediator() {
     },
   ] = useMapStore()
 
-  async function onMapLoaded(event) {
-    const response = await wikipedia.getArticles({ coord: event.center })
-    const articles = response.query.geosearch
-    const markers = mapArticlesToMarkers(articles)
-
-    addMarkers(markers)
-  }
-
   async function onMapDragged(event) {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
@@ -80,7 +72,6 @@ function useMapMediator() {
     })
   }
 
-  attachListener('mapLoaded', onMapLoaded)
   attachListener('mapDragged', onMapDragged)
   attachListener('googleApiLoaded', onGoogleApiLoaded)
   attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)

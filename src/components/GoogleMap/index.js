@@ -17,10 +17,6 @@ export default function GoogleMap() {
   const [{ markers }] = useMapStore()
   const { isThemeDark } = useTheme()
 
-  React.useEffect(() => {
-    emit('mapLoaded', { center: warsawCoord })
-  }, [])
-
   return (
     <GoogleMapReact
       bootstrapURLKeys={{
