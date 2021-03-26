@@ -15,39 +15,37 @@ const Store = createStore({
     },
   },
   actions: {
-    addMarkers: (markers) => ({ setState, getState }) => {
+    addMarkers: markers => ({ setState, getState }) => {
       const state = getState()
-      const existingMarkersIds = state.markers.map((marker) => marker.pageid)
+      const existingMarkersIds = state.markers.map(marker => marker.pageid)
       const newMarkers = markers.filter(
-        (marker) => !existingMarkersIds.includes(marker.pageid),
+        marker => !existingMarkersIds.includes(marker.pageid),
       )
 
-      setState((draft) => {
+      setState(draft => {
         draft.markers.push(...newMarkers)
       })
     },
     setMarkerColor: ({ pageid, color }) => ({ setState, getState }) => {
       const { markers } = getState()
-      const markerIndex = markers.findIndex(
-        (marker) => marker.pageid === pageid,
-      )
+      const markerIndex = markers.findIndex(marker => marker.pageid === pageid)
 
-      setState((draft) => {
+      setState(draft => {
         draft.markers[markerIndex].color = color
       })
     },
-    setIsGoogleApiLoaded: (isLoaded) => ({ setState, getState }) => {
-      setState((draft) => {
+    setIsGoogleApiLoaded: isLoaded => ({ setState, getState }) => {
+      setState(draft => {
         draft.isGoogleApiLoaded = isLoaded
       })
     },
-    setIsModalVisible: (isVisible) => ({ setState, getState }) => {
-      setState((draft) => {
+    setIsModalVisible: isVisible => ({ setState, getState }) => {
+      setState(draft => {
         draft.isModalVisible = isVisible
       })
     },
     setCurrentArticle: ({ title, url }) => ({ setState, getState }) => {
-      setState((draft) => {
+      setState(draft => {
         draft.currentArticle = {
           title,
           url,

@@ -24,7 +24,7 @@ const IconBox = styled.div`
   justify-content: center;
   font-size: 30px;
   cursor: pointer;
-  color: ${(props) => theme.colors[props.color]};
+  color: ${props => theme.colors[props.color]};
   position: absolute;
   transform: scale(0.95) translate(-50%, -50%);
   transform-origin: 0 0;

@@ -32,7 +32,7 @@ function mapArticlesToMarkers(articles) {
 }
 
 function mapVisitedArticles(articles) {
-  return articles.map((article) => ({
+  return articles.map(article => ({
     ...article,
     color: ArticlesDatabase.isArticleVisited(article.pageid)
       ? visitedMarkerColor

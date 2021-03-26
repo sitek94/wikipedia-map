@@ -25,7 +25,7 @@ export default function GoogleMap() {
       }}
       defaultCenter={warsawCoord}
       defaultZoom={defaultZoom}
-      onChange={(event) => emit('mapDragged', event)}
+      onChange={event => emit('mapDragged', event)}
       yesIWantToUseGoogleMapApiInternals
       onGoogleApiLoaded={({ map }) => emit('googleApiLoaded', { map })}
       options={{
