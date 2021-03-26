@@ -26,6 +26,16 @@ const Store = createStore({
         draft.markers.push(...newMarkers)
       })
     },
+    setMarkerAsVisited: ({ pageid }) => ({ setState, getState }) => {
+      const { markers } = getState()
+      const markerIndex = markers.findIndex(
+        (marker) => marker.pageid === pageid,
+      )
+
+      setState((draft) => {
+        draft.markers[markerIndex].visited = true
+      })
+    },
     setIsGoogleApiLoaded: (isLoaded) => ({ setState, getState }) => {
       setState((draft) => {
         draft.isGoogleApiLoaded = isLoaded

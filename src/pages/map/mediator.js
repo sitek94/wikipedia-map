@@ -30,7 +30,13 @@ function mapArticlesToMarkers(articles) {
 function useMapMediator() {
   const [
     ,
-    { addMarkers, setIsGoogleApiLoaded, setIsModalVisible, setCurrentArticle },
+    {
+      addMarkers,
+      setMarkerAsVisited,
+      setIsGoogleApiLoaded,
+      setIsModalVisible,
+      setCurrentArticle,
+    },
   ] = useMapStore()
 
   async function onMapLoaded(event) {
@@ -64,6 +70,8 @@ function useMapMediator() {
   async function onMarkerClicked({ pageid }) {
     const response = await wikipedia.getArticleInfo({ pageid })
     const article = Object.values(response.query.pages)[0]
+
+    setMarkerAsVisited({ pageid })
 
     setIsModalVisible(true)
     setCurrentArticle({
