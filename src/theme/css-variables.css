@@ -12,8 +12,8 @@
   --gray-8: #242526;
   --gray-9: #18191a;
 
-  --sunset-orange: #fa8c16;
-  --orange-6: #ffa769;
+  --orange: #fa8c16;
+  --blue: #237bffe0;
 }
 
 body[data-theme='light'] {

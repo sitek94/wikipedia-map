@@ -8,8 +8,8 @@ const colors = {
   gray_1: 'var(--gray-1)',
   gray_2: 'var(--gray-2)',
   gray_3: 'var(--gray-3)',
-  sunset_orange: 'var(--sunset-orange)',
-  orange_6: 'var(--orange-6)',
+  orange: 'var(--orange)',
+  blue: 'var(--blue)',
 
   primary: 'var(--primary)',
   secondary: 'var(--secondary)',
