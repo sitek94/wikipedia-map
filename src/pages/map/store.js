@@ -13,6 +13,7 @@ const Store = createStore({
       title: '',
       url: '',
     },
+    isSidebarVisible: true,
   },
   actions: {
     addMarkers: markers => ({ setState, getState }) => {
@@ -50,6 +51,11 @@ const Store = createStore({
           title,
           url,
         }
+      })
+    },
+    setIsSidebarVisible: isVisible => ({ setState, getState }) => {
+      setState(draft => {
+        draft.isSidebarVisible = isVisible
       })
     },
   },

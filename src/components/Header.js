@@ -6,6 +6,7 @@ import theme from 'theme'
 import ThemeToggler from 'components/ThemeToggler'
 import { useMapStore } from 'pages/map/store'
 import { emit } from 'pages/map/mediator'
+import SidebarToggler from './SidebarToggler'
 
 const { Header: AntHeader } = Layout
 
@@ -37,6 +38,7 @@ export default function Header({ children }) {
 
   return (
     <Wrapper>
+      <SidebarToggler />
       <Logo>Wikipedia Map</Logo>
       <SearchBox />
       <ThemeToggler />
@@ -47,12 +49,13 @@ export default function Header({ children }) {
 const Wrapper = styled(AntHeader)`
   display: flex;
   align-items: center;
+  padding: 0 20px;
   background: ${theme.colors.secondary};
 `
 
 const Logo = styled.h1`
   color: ${theme.colors.primary};
-  margin-bottom: 0;
+  margin: 0 20px;
 `
 
 const SearchBox = styled(AntInput).attrs({
@@ -60,7 +63,6 @@ const SearchBox = styled(AntInput).attrs({
   placeholder: 'Search',
 })`
   width: 300px;
-  margin: 5px 20px;
 
   /* Push items after the input to the right */
   margin-right: auto;
