@@ -12,6 +12,8 @@ const Store = createStore({
     currentArticle: {
       title: '',
       url: '',
+      pageid: '',
+      isSaved: false,
     },
     isSidebarVisible: true,
   },
@@ -45,15 +47,26 @@ const Store = createStore({
         draft.isModalVisible = isVisible
       })
     },
-    setCurrentArticle: ({ title, url }) => ({ setState, getState }) => {
+    setCurrentArticle: ({ pageid, title, url, isSaved }) => ({ setState }) => {
       setState(draft => {
         draft.currentArticle = {
+          pageid,
           title,
           url,
+          isSaved,
         }
       })
     },
-    setIsSidebarVisible: isVisible => ({ setState, getState }) => {
+    toggleCurrentArticleSavedState: () => ({ setState, getState }) => {
+      const { isSaved } = getState().currentArticle
+
+      setState(draft => {
+        draft.currentArticle.isSaved = !isSaved
+      })
+    },
+
+    // Sidebar
+    setIsSidebarVisible: isVisible => ({ setState }) => {
       setState(draft => {
         draft.isSidebarVisible = isVisible
       })

@@ -3,7 +3,7 @@ import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
 
 const defaultMarkerColor = 'orange'
-const visitedMarkerColor = 'blue'
+const savedMarkerColor = 'blue'
 
 const listeners = {}
 let map
@@ -31,24 +31,25 @@ function mapArticlesToMarkers(articles) {
   }))
 }
 
-function mapVisitedArticles(articles) {
+function mapSavedArticles(articles) {
   return articles.map(article => ({
     ...article,
-    color: ArticlesDatabase.isArticleVisited(article.pageid)
-      ? visitedMarkerColor
+    color: ArticlesDatabase.isArticleSaved(article.pageid)
+      ? savedMarkerColor
       : defaultMarkerColor,
   }))
 }
 
 function useMapMediator() {
   const [
-    ,
+    { currentArticle },
     {
       addMarkers,
       setMarkerColor,
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
+      toggleCurrentArticleSavedState,
     },
   ] = useMapStore()
 
@@ -56,9 +57,9 @@ function useMapMediator() {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
     const markers = mapArticlesToMarkers(articles)
-    const markersMappedAsVisited = mapVisitedArticles(markers)
+    const markersMappedAsSaved = mapSavedArticles(markers)
 
-    addMarkers(markersMappedAsVisited)
+    addMarkers(markersMappedAsSaved)
   }
 
   function onGoogleApiLoaded({ map: mapInstance }) {
@@ -77,20 +78,33 @@ function useMapMediator() {
     const response = await wikipedia.getArticleInfo({ pageid })
     const article = Object.values(response.query.pages)[0]
 
-    setMarkerColor({ pageid, color: visitedMarkerColor })
+    // setMarkerColor({ pageid })
     setIsModalVisible(true)
     setCurrentArticle({
       title: article.title,
       url: article.fullurl,
+      pageid,
+      isSaved: ArticlesDatabase.isArticleSaved(pageid),
     })
 
-    ArticlesDatabase.setArticleAsVisited(pageid)
+    // ArticlesDatabase.setArticleAsSaved(pageid)
+  }
+
+  async function onModalHeartClicked() {
+    const { pageid, isSaved } = currentArticle
+    const nextIsSaved = !isSaved
+
+    ArticlesDatabase.toggleIsArticleSaved(pageid)
+
+    setMarkerColor({ pageid, color: nextIsSaved ? 'blue' : 'orange' })
+    toggleCurrentArticleSavedState()
   }
 
   attachListener('mapDragged', onMapDragged)
   attachListener('googleApiLoaded', onGoogleApiLoaded)
   attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)
   attachListener('markerClicked', onMarkerClicked)
+  attachListener('modalHeartClicked', onModalHeartClicked)
 }
 
 function MapMediator() {

@@ -7,11 +7,18 @@ function ArticlesDatabase() {
     refresh() {
       articles = getArticles()
     },
-    isArticleVisited(pageid) {
+    isArticleSaved(pageid) {
       return articles.includes(pageid)
     },
-    setArticleAsVisited(pageid) {
+    setArticleAsSaved(pageid) {
       addArticle(pageid)
+    },
+    toggleIsArticleSaved(pageid) {
+      if (articles.includes(pageid)) {
+        removeArticle(pageid)
+      } else {
+        addArticle(pageid)
+      }
     },
   }
 
@@ -35,6 +42,19 @@ function ArticlesDatabase() {
       localStorage.setItem(articlesKey, JSON.stringify(articles))
     } catch (error) {
       console.error('Error while adding article to localStorage', error)
+    }
+  }
+
+  function removeArticle(pageid) {
+    try {
+      const articleIndex = articles.indexOf(pageid)
+
+      if (articleIndex !== -1) {
+        articles.splice(articleIndex, 1)
+        localStorage.setItem(articlesKey, JSON.stringify(articles))
+      }
+    } catch (error) {
+      console.error('Error while removing article from localStorage', error)
     }
   }
 }

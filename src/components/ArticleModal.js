@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Modal as AntModal } from 'antd'
 
 import { useMapStore } from 'pages/map/store'
+import { emit } from 'pages/map/mediator'
 import HeartButton from './HeartButton'
 
 export default function ArticleModal() {
@@ -15,26 +16,26 @@ export default function ArticleModal() {
     setIsModalVisible(false)
   }
 
-  const { title, url } = currentArticle
-
-  const [filled, setFilled] = React.useState(false)
-  const toggle = () => setFilled(!filled)
+  const modalTitle = (
+    <>
+      <HeartButton
+        isFilled={currentArticle.isSaved}
+        onClick={() => emit('modalHeartClicked')}
+      />
+      <TitleText>{currentArticle.title}</TitleText>
+    </>
+  )
 
   return (
     <Modal
       centered
       visible={isModalVisible}
       onCancel={handleCancel}
-      title={
-        <>
-          <HeartButton isFilled={filled} onClick={toggle} />
-          <TitleText>{title}</TitleText>
-        </>
-      }
+      title={modalTitle}
     >
       <Iframe
-        title={title}
-        src={url.replace('wikipedia.org', 'm.wikipedia.org')}
+        title={currentArticle.title}
+        src={currentArticle.url.replace('wikipedia.org', 'm.wikipedia.org')}
       />
     </Modal>
   )
