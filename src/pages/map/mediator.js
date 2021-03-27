@@ -78,7 +78,6 @@ function useMapMediator() {
     const response = await wikipedia.getArticleInfo({ pageid })
     const article = Object.values(response.query.pages)[0]
 
-    // setMarkerColor({ pageid })
     setIsModalVisible(true)
     setCurrentArticle({
       title: article.title,
@@ -86,8 +85,6 @@ function useMapMediator() {
       pageid,
       isSaved: ArticlesDatabase.isArticleSaved(pageid),
     })
-
-    // ArticlesDatabase.setArticleAsSaved(pageid)
   }
 
   async function onModalHeartClicked() {

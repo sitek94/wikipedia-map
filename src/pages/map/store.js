@@ -18,6 +18,7 @@ const Store = createStore({
     isSidebarVisible: false,
   },
   actions: {
+    // Markers
     addMarkers: markers => ({ setState, getState }) => {
       const state = getState()
       const existingMarkersIds = state.markers.map(marker => marker.pageid)
@@ -37,12 +38,16 @@ const Store = createStore({
         draft.markers[markerIndex].color = color
       })
     },
-    setIsGoogleApiLoaded: isLoaded => ({ setState, getState }) => {
+
+    // Google API
+    setIsGoogleApiLoaded: isLoaded => ({ setState }) => {
       setState(draft => {
         draft.isGoogleApiLoaded = isLoaded
       })
     },
-    setIsModalVisible: isVisible => ({ setState, getState }) => {
+
+    // Current article
+    setIsModalVisible: isVisible => ({ setState }) => {
       setState(draft => {
         draft.isModalVisible = isVisible
       })
