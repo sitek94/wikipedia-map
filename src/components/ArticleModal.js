@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Modal as AntModal } from 'antd'
 
 import { useMapStore } from 'pages/map/store'
+import HeartButton from './HeartButton'
 
 export default function ArticleModal() {
   const [
@@ -16,12 +17,20 @@ export default function ArticleModal() {
 
   const { title, url } = currentArticle
 
+  const [filled, setFilled] = React.useState(false)
+  const toggle = () => setFilled(!filled)
+
   return (
     <Modal
       centered
-      title={title}
       visible={isModalVisible}
       onCancel={handleCancel}
+      title={
+        <>
+          <HeartButton isFilled={filled} onClick={toggle} />
+          <TitleText>{title}</TitleText>
+        </>
+      }
     >
       <Iframe
         title={title}
@@ -39,6 +48,10 @@ const Modal = styled(AntModal).attrs({
   },
 })`
   max-width: 1200px;
+`
+
+const TitleText = styled.span`
+  font-size: 18px;
 `
 
 const Iframe = styled.iframe`
