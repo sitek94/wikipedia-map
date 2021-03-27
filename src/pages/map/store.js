@@ -15,7 +15,7 @@ const Store = createStore({
       pageid: '',
       isSaved: false,
     },
-    isSidebarVisible: true,
+    isSidebarVisible: false,
   },
   actions: {
     addMarkers: markers => ({ setState, getState }) => {

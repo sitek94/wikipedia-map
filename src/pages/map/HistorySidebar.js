@@ -61,6 +61,7 @@ const Sidebar = styled(Modal).attrs({
   // removing them
   transitionName: '',
   footer: null,
+  focusTriggerAfterClose: false,
 })`
   position: fixed;
   top: 0;
