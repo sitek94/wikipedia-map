@@ -1,22 +1,16 @@
-import './css-variables.css'
+import themes, { colors } from './themes'
+import { toVarNames } from './utils'
 
-const colors = {
-  white: 'var(--white)',
-  black: 'var(--black)',
-  whiteRgb: 'var(--white-rgb)',
-  blackRgb: 'var(--black-rgb)',
-  gray_1: 'var(--gray-1)',
-  gray_2: 'var(--gray-2)',
-  gray_3: 'var(--gray-3)',
-  orange: 'var(--orange)',
-  blue: 'var(--blue)',
-
-  primary: 'var(--primary)',
-  secondary: 'var(--secondary)',
-}
+const variables = toVarNames(themes.light)
 
 const theme = {
-  colors,
+  colors: {
+    // All the colors that are available: white, grey, blue, etc.
+    ...colors,
+
+    // More specific colors: primary, secondary, hoverButton, etc.
+    ...variables.colors,
+  },
 }
 
 export default theme
