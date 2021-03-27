@@ -17,7 +17,12 @@ export default function ArticleModal() {
   const { title, url } = currentArticle
 
   return (
-    <Modal title={title} visible={isModalVisible} onCancel={handleCancel}>
+    <Modal
+      centered
+      title={title}
+      visible={isModalVisible}
+      onCancel={handleCancel}
+    >
       <Iframe
         title={title}
         src={url.replace('wikipedia.org', 'm.wikipedia.org')}
