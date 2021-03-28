@@ -1,10 +1,21 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { Modal as AntModal } from 'antd'
+import {
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  Typography,
+} from '@material-ui/core'
+import {
+  Close as CloseIcon,
+  FavoriteBorder as HeartEmptyIcon,
+  Favorite as HeartFilledIcon,
+} from '@material-ui/icons'
+import { red } from '@material-ui/core/colors'
 
 import { useMapStore } from 'pages/map/store'
 import { emit } from 'pages/map/mediator'
-import HeartButton from './HeartButton'
 
 export default function ArticleModal() {
   const [
@@ -12,51 +23,78 @@ export default function ArticleModal() {
     { setIsModalVisible },
   ] = useMapStore()
 
-  const handleCancel = () => {
+  const handleClose = () => {
     setIsModalVisible(false)
   }
 
-  const modalTitle = (
-    <>
-      <HeartButton
-        isFilled={currentArticle.isSaved}
-        onClick={() => emit('modalHeartClicked')}
-      />
-      <TitleText>{currentArticle.title}</TitleText>
-    </>
-  )
+  const { title, url, isSaved } = currentArticle
+
+  const heartButtonLabel = isSaved
+    ? 'add article to saved'
+    : 'remove article from saved'
 
   return (
-    <Modal
-      centered
-      visible={isModalVisible}
-      onCancel={handleCancel}
-      title={modalTitle}
+    <Dialog
+      onClose={handleClose}
+      open={isModalVisible}
+      PaperProps={{
+        sx: {
+          height: '80vh',
+          width: '80vw',
+          maxWidth: '1200px',
+        },
+      }}
     >
-      <Iframe
-        title={currentArticle.title}
-        src={currentArticle.url.replace('wikipedia.org', 'm.wikipedia.org')}
-      />
-    </Modal>
+      <DialogTitle
+        onClose={handleClose}
+        disableTypography
+        sx={{
+          m: 0,
+          p: 2,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {/* Heart button */}
+        <IconButton
+          onClick={() => emit('modalHeartClicked')}
+          aria-label={heartButtonLabel}
+        >
+          {isSaved ? (
+            <HeartEmptyIcon />
+          ) : (
+            <HeartFilledIcon style={{ color: red['A400'] }} />
+          )}
+        </IconButton>
+
+        {/* Modal title */}
+        <Typography variant="h6" component="h2">
+          {title}
+        </Typography>
+
+        {/* Close modal button */}
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 1,
+            top: 1,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+
+      <DialogContent sx={{ p: 2, height: '100%', overflow: 'hidden' }}>
+        {/* Iframe with Wikipedia article */}
+        <Box clone sx={{ height: '100%', width: '100%', border: 'none' }}>
+          <iframe
+            title={title}
+            src={url.replace('wikipedia.org', 'm.wikipedia.org')}
+          />
+        </Box>
+      </DialogContent>
+    </Dialog>
   )
 }
-
-const Modal = styled(AntModal).attrs({
-  footer: null,
-  width: '80vw',
-  bodyStyle: {
-    height: 'calc(80vh)',
-  },
-})`
-  max-width: 1200px;
-`
-
-const TitleText = styled.span`
-  font-size: 18px;
-`
-
-const Iframe = styled.iframe`
-  width: 100%;
-  height: 100%;
-  border: none;
-`
