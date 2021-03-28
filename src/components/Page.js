@@ -1,28 +1,18 @@
-import styled from 'styled-components'
-import { Layout as AntLayout } from 'antd'
+import { Box } from '@material-ui/core'
 
-import theme from 'theme'
 import Header from 'components/Header'
-
-const { Content, Footer: AntFooter } = AntLayout
 
 export default function Page({ children }) {
   return (
-    <Layout>
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Header />
-      <Content>{children}</Content>
-      <Footer>By Maciek Sitkowski during Netguru College in March 2021</Footer>
-    </Layout>
+      <Box sx={{ flex: 'auto' }}>{children}</Box>
+    </Box>
   )
 }
-
-const Layout = styled(AntLayout)`
-  height: 100vh;
-  background-color: ${theme.colors.gray_3};
-`
-
-const Footer = styled(AntFooter)`
-  text-align: center;
-  color: ${theme.colors.primary};
-  background: ${theme.colors.secondary};
-`
