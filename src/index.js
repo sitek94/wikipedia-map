@@ -3,11 +3,20 @@ import * as ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
 
 import App from './App'
-import { ThemeProvider } from 'theme'
+import { ThemeProvider as MyThemeProvider } from 'theme'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core'
+
+const theme = createMuiTheme({
+  palette: {
+    mode: 'dark',
+  },
+})
 
 const app = (
-  <ThemeProvider>
-    <App />
+  <ThemeProvider theme={theme}>
+    <MyThemeProvider>
+      <App />
+    </MyThemeProvider>
   </ThemeProvider>
 )
 
