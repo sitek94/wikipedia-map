@@ -39,13 +39,11 @@ function useMapMediator() {
     { currentArticle },
     {
       addMarkers,
-      setMarkerColor,
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
       setSavedArticlesIds,
       toggleSavedArticleId,
-      toggleCurrentArticleSavedState,
     },
   ] = useMapStore()
 
@@ -87,7 +85,6 @@ function useMapMediator() {
   async function onModalHeartClicked() {
     const { pageid } = currentArticle
 
-    toggleCurrentArticleSavedState()
     toggleSavedArticleId(pageid)
 
     ArticlesDatabase.toggleIsArticleSaved(pageid)
