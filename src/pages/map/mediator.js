@@ -2,8 +2,8 @@ import wikipedia from 'services/api/wikipedia'
 import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
 
-const defaultMarkerColor = 'orange'
-const savedMarkerColor = 'blue'
+const defaultMarkerColor = 'primary'
+const savedMarkerColor = 'secondary'
 
 const listeners = {}
 let map
@@ -89,12 +89,15 @@ function useMapMediator() {
 
   async function onModalHeartClicked() {
     const { pageid, isSaved } = currentArticle
-    const nextIsSaved = !isSaved
+    const isSavedAfterClick = !isSaved
+
+    toggleCurrentArticleSavedState()
+    setMarkerColor({
+      pageid,
+      color: isSavedAfterClick ? savedMarkerColor : defaultMarkerColor,
+    })
 
     ArticlesDatabase.toggleIsArticleSaved(pageid)
-
-    setMarkerColor({ pageid, color: nextIsSaved ? 'blue' : 'orange' })
-    toggleCurrentArticleSavedState()
   }
 
   attachListener('mapDragged', onMapDragged)
