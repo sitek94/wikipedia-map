@@ -2,9 +2,6 @@ import wikipedia from 'services/api/wikipedia'
 import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
 
-const defaultMarkerColor = 'primary'
-const savedMarkerColor = 'secondary'
-
 const listeners = {}
 let map
 
@@ -31,13 +28,10 @@ function mapArticlesToMarkers(articles) {
   }))
 }
 
-function mapSavedArticles(articles) {
-  return articles.map(article => ({
-    ...article,
-    color: ArticlesDatabase.isArticleSaved(article.pageid)
-      ? savedMarkerColor
-      : defaultMarkerColor,
-  }))
+function getSavedArtclesIds(articles) {
+  return articles
+    .filter(({ pageid }) => ArticlesDatabase.isArticleSaved(pageid))
+    .map(({ pageid }) => pageid)
 }
 
 function useMapMediator() {
@@ -49,6 +43,8 @@ function useMapMediator() {
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
+      setSavedArticlesIds,
+      toggleSavedArticleId,
       toggleCurrentArticleSavedState,
     },
   ] = useMapStore()
@@ -57,9 +53,10 @@ function useMapMediator() {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
     const markers = mapArticlesToMarkers(articles)
-    const markersMappedAsSaved = mapSavedArticles(markers)
+    const savedArticlesIds = getSavedArtclesIds(articles)
 
-    addMarkers(markersMappedAsSaved)
+    addMarkers(markers)
+    setSavedArticlesIds(savedArticlesIds)
   }
 
   function onGoogleApiLoaded({ map: mapInstance }) {
@@ -88,14 +85,10 @@ function useMapMediator() {
   }
 
   async function onModalHeartClicked() {
-    const { pageid, isSaved } = currentArticle
-    const isSavedAfterClick = !isSaved
+    const { pageid } = currentArticle
 
     toggleCurrentArticleSavedState()
-    setMarkerColor({
-      pageid,
-      color: isSavedAfterClick ? savedMarkerColor : defaultMarkerColor,
-    })
+    toggleSavedArticleId(pageid)
 
     ArticlesDatabase.toggleIsArticleSaved(pageid)
   }

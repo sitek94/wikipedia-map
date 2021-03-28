@@ -12,10 +12,18 @@ const warsawCoord = {
   lng: 21.015043804607192,
 }
 const defaultZoom = 15.5
+const defaultMarkerColor = 'primary'
+const savedMarkerColor = 'secondary'
 
 export default function GoogleMap() {
-  const [{ markers }] = useMapStore()
+  const [{ markers, savedArticlesIds }] = useMapStore()
   const { isThemeDark } = useTheme()
+
+  function getMarkerColor(pageid) {
+    return savedArticlesIds.includes(pageid)
+      ? savedMarkerColor
+      : defaultMarkerColor
+  }
 
   return (
     <GoogleMapReact
@@ -39,7 +47,7 @@ export default function GoogleMap() {
           lng={lng}
           title={title}
           pageid={pageid}
-          color={color}
+          color={getMarkerColor(pageid)}
         />
       ))}
     </GoogleMapReact>
