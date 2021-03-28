@@ -61,9 +61,9 @@ export default function ArticleModal() {
           aria-label={heartButtonLabel}
         >
           {isSaved ? (
-            <HeartEmptyIcon />
-          ) : (
             <HeartFilledIcon style={{ color: red['A400'] }} />
+          ) : (
+            <HeartEmptyIcon />
           )}
         </IconButton>
 
