@@ -1,38 +1,30 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { Layout } from 'antd'
+import { AppBar, Box, Toolbar, Typography } from '@material-ui/core'
 
-import theme from 'theme'
 import ThemeToggler from 'components/ThemeToggler'
 import SidebarToggler from 'components/SidebarToggler'
-import SearchBoxBase from 'components/SearchBox'
-
-const { Header: AntHeader } = Layout
+import SearchBox from 'components/SearchBox'
 
 export default function Header({ children }) {
   return (
-    <Wrapper>
-      <SidebarToggler />
-      <Logo>Wikipedia Map</Logo>
-      <SearchBox />
-      <ThemeToggler />
-    </Wrapper>
+    <AppBar position="static" color="primary">
+      <Toolbar>
+        <SidebarToggler />
+        <Logo />
+        <Box sx={{ mr: 'auto' }}>
+          <SearchBox />
+        </Box>
+
+        <ThemeToggler />
+      </Toolbar>
+    </AppBar>
   )
 }
 
-const Wrapper = styled(AntHeader)`
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  background: ${theme.colors.secondary};
-`
-
-const Logo = styled.h1`
-  color: ${theme.colors.primary};
-  margin: 0 20px;
-`
-
-const SearchBox = styled(SearchBoxBase)`
-  width: 300px;
-  margin-right: auto;
-`
+function Logo() {
+  return (
+    <Typography variant="h6" component="h1" color="textPrimary">
+      Wikipedia Map
+    </Typography>
+  )
+}
