@@ -1,31 +1,22 @@
-import styled from 'styled-components'
-import { Button as AntButton } from 'antd'
-import { MenuOutlined } from '@ant-design/icons'
+import * as React from 'react'
+import { IconButton } from '@material-ui/core'
+import { Menu as MenuIcon } from '@material-ui/icons'
 
 import { useMapStore } from 'pages/map/store'
-import theme from 'theme'
 
 export default function SidebarToggler() {
   const [, { setIsSidebarVisible }] = useMapStore()
   const openSidebar = () => setIsSidebarVisible(true)
 
   return (
-    <Button
-      size="large"
-      shape="circle"
-      type="text"
+    <IconButton
       onClick={openSidebar}
-      icon={<MenuOutlined style={{ fontSize: 22 }} />}
-    />
+      edge="start"
+      color="inherit"
+      aria-label="menu"
+      sx={{ mr: 2 }}
+    >
+      <MenuIcon />
+    </IconButton>
   )
 }
-
-const Button = styled(AntButton)`
-  color: ${theme.colors.text.default};
-
-  &.ant-btn-text:hover,
-  &.ant-btn-text:focus {
-    color: ${theme.colors.text.default};
-    background-color: ${theme.colors.background.level2};
-  }
-`
