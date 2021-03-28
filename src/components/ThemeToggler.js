@@ -1,24 +1,23 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { Switch as AntSwitch } from 'antd'
+import { IconButton } from '@material-ui/core'
+import {
+  Brightness4 as MoonIcon,
+  Brightness7 as SunIcon,
+} from '@material-ui/icons'
 
-import theme, { useTheme } from 'theme'
+import { useTheme } from 'theme'
 
-export default function ThemeToggler() {
+export default function SidebarToggler() {
   const { toggleTheme, isThemeDark } = useTheme()
 
   return (
-    <Switch
+    <IconButton
       onClick={toggleTheme}
-      checkedChildren="☀️"
-      unCheckedChildren="🌙"
-      defaultChecked={isThemeDark}
-    />
+      edge="end"
+      color="inherit"
+      aria-label="toggle light/dark mode"
+    >
+      {isThemeDark ? <SunIcon /> : <MoonIcon />}
+    </IconButton>
   )
 }
-
-const Switch = styled(AntSwitch)`
-  &.ant-switch-checked {
-    background-color: rgba(${theme.colors.whiteRgb}, 0.5);
-  }
-`
