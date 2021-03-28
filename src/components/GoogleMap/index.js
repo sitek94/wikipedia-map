@@ -3,7 +3,7 @@ import GoogleMapReact from 'google-map-react'
 
 import { emit } from 'pages/map/mediator'
 import { useMapStore } from 'pages/map/store'
-import { useTheme } from 'theme'
+import { useTheme } from '@material-ui/core'
 import Marker from 'components/marker'
 import styles from './styles'
 

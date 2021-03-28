@@ -5,7 +5,7 @@ import {
   Brightness7 as SunIcon,
 } from '@material-ui/icons'
 
-import { useTheme } from 'theme'
+import { useTheme } from '@material-ui/core'
 
 export default function SidebarToggler() {
   const { toggleTheme, isThemeDark } = useTheme()

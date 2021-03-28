@@ -1,17 +1,50 @@
-import themes, { colors } from './themes'
-import { toVarNames } from './utils'
+import * as React from 'react'
+import {
+  ThemeProvider as MuiThemeProvider,
+  createMuiTheme,
+  CssBaseline,
+} from '@material-ui/core'
 
-const variables = toVarNames(themes.light)
+const primaryColor = '#fa8c16'
+const secondaryColor = '#237bffe0'
 
-const theme = {
-  colors: {
-    // All the colors that are available: white, grey, blue, etc.
-    ...colors,
-
-    // More specific colors: primary, secondary, hoverButton, etc.
-    ...variables.colors,
-  },
+function createTheme(mode) {
+  return createMuiTheme({
+    palette: {
+      mode,
+      primary: {
+        main: primaryColor,
+      },
+      secondary: {
+        main: secondaryColor,
+      },
+    },
+  })
 }
 
-export default theme
-export { ThemeProvider, useTheme } from './provider'
+export default function ThemeProvider({ children }) {
+  const [mode, setMode] = React.useState('light')
+  const nextMode = mode === 'dark' ? 'light' : 'dark'
+
+  const theme = React.useMemo(
+    () => ({
+      // Material ui theme object
+      ...createTheme(mode),
+
+      // Extend default object with extra stuff
+      isThemeDark: mode === 'dark',
+      isThemeLight: mode === 'light',
+      toggleTheme: () => setMode(nextMode),
+    }),
+    [mode, nextMode],
+  )
+
+  console.log(theme)
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </MuiThemeProvider>
+  )
+}

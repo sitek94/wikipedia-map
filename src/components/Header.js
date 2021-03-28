@@ -23,7 +23,7 @@ export default function Header({ children }) {
 
 function Logo() {
   return (
-    <Typography variant="h6" component="h1" color="textPrimary">
+    <Typography variant="h6" component="h1">
       Wikipedia Map
     </Typography>
   )
