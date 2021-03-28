@@ -1,69 +1,73 @@
-import styled from 'styled-components'
-import { Menu, Modal } from 'antd'
-import { HeartOutlined } from '@ant-design/icons'
+import * as React from 'react'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import MailIcon from '@material-ui/icons/Mail'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import StarBorder from '@material-ui/icons/StarBorder'
+import Collapse from '@material-ui/core/Collapse'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import { useMapStore } from './store'
 
-const { SubMenu } = Menu
-
-export default function HistorySidebar({ children }) {
+export default function Sidebar2() {
   const [{ isSidebarVisible }, { setIsSidebarVisible }] = useMapStore()
+  const closeSidebar = () => setIsSidebarVisible(false)
 
   return (
-    <Sidebar
-      title="History"
-      visible={isSidebarVisible}
-      onCancel={() => setIsSidebarVisible(false)}
-    >
-      <Menu theme="light" mode="inline">
-        <SubMenu key="1ub1" icon={<HeartOutlined />} title="Saved Places">
-          <Menu.Item key="1">Tom</Menu.Item>
-          <Menu.Item key="2">Bill</Menu.Item>
-          <Menu.Item key="3">Alex</Menu.Item>
-          <Menu.Item key="4">Tom</Menu.Item>
-          <Menu.Item key="5">Bill</Menu.Item>
-          <Menu.Item key="6">Alex</Menu.Item>
-          <Menu.Item key="7">Tom</Menu.Item>
-          <Menu.Item key="8">Bill</Menu.Item>
-          <Menu.Item key="9">Alex</Menu.Item>
-          <Menu.Item key="10">Tom</Menu.Item>
-          <Menu.Item key="11">Bill</Menu.Item>
-          <Menu.Item key="12">Alex</Menu.Item>
-          <Menu.Item key="13">Tom</Menu.Item>
-          <Menu.Item key="14">Bill</Menu.Item>
-          <Menu.Item key="15">Alex</Menu.Item>
-          <Menu.Item key="16">Tom</Menu.Item>
-          <Menu.Item key="17">Bill</Menu.Item>
-          <Menu.Item key="18">Alex</Menu.Item>
-          <Menu.Item key="19">Tom</Menu.Item>
-          <Menu.Item key="20">Bill</Menu.Item>
-          <Menu.Item key="21">Alex</Menu.Item>
-        </SubMenu>
-      </Menu>
-    </Sidebar>
+    <Drawer anchor="left" open={isSidebarVisible} onClose={closeSidebar}>
+      {list}
+    </Drawer>
   )
 }
 
-const modalHeaderHeight = '55px'
+const list = (
+  <List sx={{ width: 250 }}>
+    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+      <ListItem button key={text}>
+        <ListItemIcon>
+          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItem>
+    ))}
+    <NestedList />
+  </List>
+)
 
-/**
- * Sidebar is based on Ant Design's Modal component becuase I didn't like any
- * of the available Siders
- */
-const Sidebar = styled(Modal).attrs({
-  width: 200,
-  bodyStyle: {
-    height: `calc(100vh - ${modalHeaderHeight})`,
-    padding: 0,
-    overflow: 'auto',
-  },
-  // # TODO: replace default transition with sliding effect instead of just
-  // removing them
-  transitionName: '',
-  footer: null,
-  focusTriggerAfterClose: false,
-})`
-  position: fixed;
-  top: 0;
-  left: 0;
-`
+function NestedList() {
+  const [open, setOpen] = React.useState(true)
+
+  const handleClick = () => {
+    setOpen(!open)
+  }
+
+  return (
+    <>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary="Inbox" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {Array(20)
+            .fill(null)
+            .map((_, i) => (
+              <ListItem key={i} sx={{ pl: 4 }} button>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="Starred" />
+              </ListItem>
+            ))}
+        </List>
+      </Collapse>
+    </>
+  )
+}
