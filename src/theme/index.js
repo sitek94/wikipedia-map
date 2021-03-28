@@ -3,6 +3,7 @@ import {
   ThemeProvider as MuiThemeProvider,
   createMuiTheme,
   CssBaseline,
+  darkScrollbar,
 } from '@material-ui/core'
 
 const primaryColor = '#fa8c16'
@@ -17,6 +18,11 @@ function createTheme(mode) {
       },
       secondary: {
         main: secondaryColor,
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: mode === 'dark' ? { body: darkScrollbar() } : null,
       },
     },
   })
