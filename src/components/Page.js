@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core'
 
 import Header from 'components/Header'
+import Sidebar from 'pages/map/HistorySidebar'
 
 export default function Page({ children }) {
   return (
@@ -12,6 +13,7 @@ export default function Page({ children }) {
       }}
     >
       <Header />
+      <Sidebar />
       <Box sx={{ flex: 'auto' }}>{children}</Box>
     </Box>
   )

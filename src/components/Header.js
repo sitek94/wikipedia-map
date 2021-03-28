@@ -1,13 +1,21 @@
 import * as React from 'react'
-import { AppBar, Box, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Box, Toolbar, Typography, useTheme } from '@material-ui/core'
 
 import ThemeToggler from 'components/ThemeToggler'
 import SidebarToggler from 'components/SidebarToggler'
 import SearchBox from 'components/SearchBox'
 
 export default function Header({ children }) {
+  const { zIndex } = useTheme()
+
   return (
-    <AppBar position="static" color="primary">
+    <AppBar
+      position="fixed"
+      color="primary"
+      sx={{
+        zIndex: zIndex.drawer + 1,
+      }}
+    >
       <Toolbar>
         <SidebarToggler />
         <Logo />

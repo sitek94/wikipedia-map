@@ -10,16 +10,24 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import Toolbar from '@material-ui/core/Toolbar'
 
 import { useMapStore } from './store'
+import { Box } from '@material-ui/core'
 
-export default function Sidebar2() {
+export default function Sidebar() {
   const [{ isSidebarVisible }, { setIsSidebarVisible }] = useMapStore()
   const closeSidebar = () => setIsSidebarVisible(false)
 
   return (
-    <Drawer anchor="left" open={isSidebarVisible} onClose={closeSidebar}>
-      {list}
+    <Drawer
+      anchor="left"
+      open={isSidebarVisible}
+      onClose={closeSidebar}
+      variant="persistent"
+    >
+      <Toolbar />
+      <Box sx={{ overflow: 'auto' }}>{list}</Box>
     </Drawer>
   )
 }
