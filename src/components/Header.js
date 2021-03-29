@@ -3,7 +3,7 @@ import { AppBar, Box, Toolbar, Typography, useTheme } from '@material-ui/core'
 
 import ThemeToggler from 'components/ThemeToggler'
 import SidebarToggler from 'components/SidebarToggler'
-import SearchBox from 'components/SearchBox'
+import SearchBox from 'pages/map/components/SearchBox'
 
 export default function Header({ children }) {
   const { zIndex } = useTheme()
