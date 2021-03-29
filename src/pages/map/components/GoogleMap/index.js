@@ -4,7 +4,7 @@ import GoogleMapReact from 'google-map-react'
 import { emit } from 'pages/map/mediator'
 import { useMapStore } from 'pages/map/store'
 import { useTheme } from '@material-ui/core'
-import Marker from 'components/Marker'
+import Marker from 'pages/map/components/Marker'
 import styles from './styles'
 
 const warsawCoord = {

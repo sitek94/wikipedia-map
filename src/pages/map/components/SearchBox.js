@@ -3,8 +3,8 @@ import { InputBase } from '@material-ui/core'
 import { experimentalStyled as styled, alpha } from '@material-ui/core/styles'
 import { Search as SearchIcon } from '@material-ui/icons'
 
-import { useMapStore } from 'pages/map/store'
-import { emit } from 'pages/map/mediator'
+import { useMapStore } from '../store'
+import { emit } from '../mediator'
 
 export default function SearchBox(props) {
   const [{ isGoogleApiLoaded }] = useMapStore()
@@ -54,6 +54,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   width: '100%',
+  maxWidth: 300,
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
     width: 'auto',

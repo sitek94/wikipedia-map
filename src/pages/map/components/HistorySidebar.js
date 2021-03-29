@@ -1,9 +1,7 @@
 import * as React from 'react'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import HeartIcon from '@material-ui/icons/Favorite'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-import StarBorder from '@material-ui/icons/StarBorder'
 import Collapse from '@material-ui/core/Collapse'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -12,8 +10,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Toolbar from '@material-ui/core/Toolbar'
 
-import { useMapStore } from './store'
+import { useMapStore } from '../store'
 import { Box } from '@material-ui/core'
+import { red } from '@material-ui/core/colors'
+import { emit } from '../mediator'
 
 export default function Sidebar() {
   const [{ isSidebarVisible }, { setIsSidebarVisible }] = useMapStore()
@@ -27,55 +27,55 @@ export default function Sidebar() {
       variant="persistent"
     >
       <Toolbar />
-      <Box sx={{ overflow: 'auto' }}>{list}</Box>
+      <Box sx={{ overflow: 'auto' }}>
+        <List sx={{ width: 250 }}>
+          <NestedList
+            primary="Saved articles"
+            collapsedElement={<SavedArticlesList />}
+          />
+        </List>
+      </Box>
     </Drawer>
   )
 }
 
-const list = (
-  <List sx={{ width: 250 }}>
-    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-      <ListItem button key={text}>
-        <ListItemIcon>
-          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-        </ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    ))}
-    <NestedList />
-  </List>
-)
-
-function NestedList() {
+function NestedList({ primary, collapsedElement }) {
   const [open, setOpen] = React.useState(true)
-
-  const handleClick = () => {
-    setOpen(!open)
-  }
+  const handleClick = () => setOpen(!open)
 
   return (
     <>
       <ListItem button onClick={handleClick}>
-        <ListItemIcon>
-          <InboxIcon />
+        <ListItemIcon sx={{ minWidth: 0, mr: 1 }}>
+          <HeartIcon style={{ color: red['A400'] }} />
         </ListItemIcon>
-        <ListItemText primary="Inbox" />
+
+        <ListItemText primary={primary} />
+
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
+
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {Array(20)
-            .fill(null)
-            .map((_, i) => (
-              <ListItem key={i} sx={{ pl: 4 }} button>
-                <ListItemIcon>
-                  <StarBorder />
-                </ListItemIcon>
-                <ListItemText primary="Starred" />
-              </ListItem>
-            ))}
-        </List>
+        {collapsedElement}
       </Collapse>
     </>
+  )
+}
+
+function SavedArticlesList() {
+  const [{ savedArticles }] = useMapStore()
+
+  return (
+    <List component="div" disablePadding dense>
+      {savedArticles.map(({ pageid, title, lat, lng }) => (
+        <ListItem
+          key={pageid}
+          onClick={() => emit('sidebarSavedArticleClick', { lat, lng })}
+          button
+        >
+          <ListItemText primary={title} />
+        </ListItem>
+      ))}
+    </List>
   )
 }
