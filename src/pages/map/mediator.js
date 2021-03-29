@@ -52,6 +52,7 @@ function useMapMediator() {
     { markers, currentArticle },
     {
       addMarkers,
+      setMarkerColor,
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
@@ -95,8 +96,15 @@ function useMapMediator() {
   }
 
   async function onModalHeartClicked() {
-    const { pageid, title } = currentArticle
+    const { pageid, title, isSaved } = currentArticle
     const { lat, lng } = markers.find(m => m.pageid === pageid)
+
+    const isSavedAfterClick = !isSaved
+    const newMarkerColor = isSavedAfterClick
+      ? savedMarkerColor
+      : defaultMarkerColor
+
+    setMarkerColor({ pageid, color: newMarkerColor })
 
     ArticlesDatabase.toggleArticle({ pageid, title, lat, lng })
     toggleCurrentArticle()

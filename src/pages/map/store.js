@@ -16,6 +16,7 @@ const Store = createStore({
       isSaved: false,
     },
     isSidebarVisible: false,
+    savedArticles: [],
   },
   actions: {
     // Markers
@@ -30,9 +31,12 @@ const Store = createStore({
         draft.markers.push(...newMarkers)
       })
     },
-    setSavedArticlesIds: ids => ({ setState, getState }) => {
+    setMarkerColor: ({ pageid, color }) => ({ setState, getState }) => {
+      const { markers } = getState()
+      const index = markers.findIndex(marker => marker.pageid === pageid)
+
       setState(draft => {
-        draft.savedArticlesIds = ids
+        draft.markers[index].color = color
       })
     },
 
@@ -70,6 +74,13 @@ const Store = createStore({
     setIsSidebarVisible: isVisible => ({ setState }) => {
       setState(draft => {
         draft.isSidebarVisible = isVisible
+      })
+    },
+
+    // Saved articles
+    setSavedArticles: articles => ({ setState }) => {
+      setState(draft => {
+        draft.savedArticles = articles
       })
     },
   },
