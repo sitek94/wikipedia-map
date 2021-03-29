@@ -25,7 +25,8 @@
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
     "react-scripts": "4.0.3",
-    "react-sweet-state": "^2.5.2"
+    "react-sweet-state": "^2.5.2",
+    "use-debounce": "^6.0.0"
   },
   "devDependencies": {
     "husky": "4.3.8",

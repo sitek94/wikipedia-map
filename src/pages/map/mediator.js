@@ -1,3 +1,5 @@
+import { useDebouncedCallback } from 'use-debounce'
+
 import wikipedia from 'services/api/wikipedia'
 import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
@@ -47,6 +49,8 @@ function addColorToMarkers(markers) {
   }))
 }
 
+const mapDraggedDelayMs = 250
+
 function useMapMediator() {
   const [
     { markers, currentArticle },
@@ -69,6 +73,11 @@ function useMapMediator() {
 
     addMarkers(markersWithColor)
   }
+
+  const debouncedOnMapDragged = useDebouncedCallback(
+    onMapDragged,
+    mapDraggedDelayMs,
+  )
 
   function onGoogleApiLoaded({ map: mapInstance }) {
     map = mapInstance
@@ -116,7 +125,7 @@ function useMapMediator() {
     setSavedArticles(ArticlesDatabase.getArticles())
   }
 
-  attachListener('mapDragged', onMapDragged)
+  attachListener('mapDragged', debouncedOnMapDragged)
   attachListener('googleApiLoaded', onGoogleApiLoaded)
   attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)
   attachListener('markerClicked', onMarkerClicked)
