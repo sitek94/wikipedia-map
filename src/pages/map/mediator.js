@@ -125,12 +125,19 @@ function useMapMediator() {
     setSavedArticles(ArticlesDatabase.getArticles())
   }
 
+  function onSavedArticleLocationClicked({ lat, lng }) {
+    if (map) {
+      map.setCenter({ lat, lng })
+    }
+  }
+
   attachListener('mapDragged', debouncedOnMapDragged)
   attachListener('googleApiLoaded', onGoogleApiLoaded)
   attachListener('searchBoxPlaceClicked', onSearchBoxPlaceClicked)
   attachListener('markerClicked', onMarkerClicked)
   attachListener('modalHeartClicked', onModalHeartClicked)
   attachListener('savedArticlesExpanded', onSavedArticlesExpanded)
+  attachListener('savedArticleLocationClicked', onSavedArticleLocationClicked)
 }
 
 function MapMediator() {
