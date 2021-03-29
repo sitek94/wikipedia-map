@@ -2,6 +2,9 @@ import wikipedia from 'services/api/wikipedia'
 import ArticlesDatabase from 'services/articles-database'
 import { useMapStore } from './store'
 
+const defaultMarkerColor = 'primary'
+const savedMarkerColor = 'secondary'
+
 const listeners = {}
 let map
 
@@ -19,6 +22,9 @@ function emit(eventName, ...args) {
   listener(...args)
 }
 
+/**
+ * Maps Wikipedia articles to markers
+ */
 function mapArticlesToMarkers(articles) {
   return articles.map(({ pageid, lat, lon, title }) => ({
     pageid,
@@ -28,22 +34,29 @@ function mapArticlesToMarkers(articles) {
   }))
 }
 
-function getSavedArtclesIds(articles) {
-  return articles
-    .filter(({ pageid }) => ArticlesDatabase.isArticleSaved(pageid))
-    .map(({ pageid }) => pageid)
+/**
+ * Adds `color` prop to a marker. The color depends on whether the article that
+ * marker points at is saved or not.
+ */
+function addColorToMarkers(markers) {
+  return markers.map(marker => ({
+    ...marker,
+    color: ArticlesDatabase.isArticleSaved(marker.pageid)
+      ? savedMarkerColor
+      : defaultMarkerColor,
+  }))
 }
 
 function useMapMediator() {
   const [
-    { currentArticle },
+    { markers, currentArticle },
     {
       addMarkers,
       setIsGoogleApiLoaded,
       setIsModalVisible,
       setCurrentArticle,
-      setSavedArticlesIds,
-      toggleSavedArticleId,
+      toggleCurrentArticle,
+      setSavedArticles,
     },
   ] = useMapStore()
 
@@ -51,10 +64,9 @@ function useMapMediator() {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
     const markers = mapArticlesToMarkers(articles)
-    const savedArticlesIds = getSavedArtclesIds(articles)
+    const markersWithColor = addColorToMarkers(markers)
 
-    addMarkers(markers)
-    setSavedArticlesIds(savedArticlesIds)
+    addMarkers(markersWithColor)
   }
 
   function onGoogleApiLoaded({ map: mapInstance }) {
@@ -83,11 +95,13 @@ function useMapMediator() {
   }
 
   async function onModalHeartClicked() {
-    const { pageid } = currentArticle
+    const { pageid, title } = currentArticle
+    const { lat, lng } = markers.find(m => m.pageid === pageid)
 
-    toggleSavedArticleId(pageid)
+    ArticlesDatabase.toggleArticle({ pageid, title, lat, lng })
+    toggleCurrentArticle()
 
-    ArticlesDatabase.toggleIsArticleSaved(pageid)
+    setSavedArticles(ArticlesDatabase.getArticles())
   }
 
   attachListener('mapDragged', onMapDragged)

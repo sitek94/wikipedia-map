@@ -4,22 +4,28 @@ function ArticlesDatabase() {
   let articles = getArticles()
 
   return {
+    getArticles,
     refresh() {
       articles = getArticles()
     },
     isArticleSaved(pageid) {
-      return articles.includes(pageid)
+      return articleExists(pageid)
     },
     setArticleAsSaved(pageid) {
       addArticle(pageid)
     },
-    toggleIsArticleSaved(pageid) {
-      if (articles.includes(pageid)) {
+    toggleArticle({ pageid, title, lat, lng }) {
+      if (articleExists(pageid)) {
         removeArticle(pageid)
       } else {
-        addArticle(pageid)
+        addArticle({ pageid, title, lat, lng })
       }
     },
+  }
+
+  function articleExists(pageid) {
+    const index = articles.findIndex(a => a.pageid === pageid)
+    return index !== -1
   }
 
   function getArticles() {
@@ -36,10 +42,13 @@ function ArticlesDatabase() {
     }
   }
 
-  function addArticle(pageid) {
+  function addArticle({ pageid, title, lat, lng }) {
     try {
-      articles.push(pageid)
-      localStorage.setItem(articlesKey, JSON.stringify(articles))
+      if (!articleExists(pageid)) {
+        articles.push({ pageid, title, lat, lng })
+
+        localStorage.setItem(articlesKey, JSON.stringify(articles))
+      }
     } catch (error) {
       console.error('Error while adding article to localStorage', error)
     }
@@ -47,10 +56,10 @@ function ArticlesDatabase() {
 
   function removeArticle(pageid) {
     try {
-      const articleIndex = articles.indexOf(pageid)
+      if (articleExists(pageid)) {
+        const index = articles.findIndex(a => a.pageid === pageid)
+        articles.splice(index, 1)
 
-      if (articleIndex !== -1) {
-        articles.splice(articleIndex, 1)
         localStorage.setItem(articlesKey, JSON.stringify(articles))
       }
     } catch (error) {
