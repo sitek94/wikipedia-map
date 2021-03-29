@@ -7,18 +7,20 @@ import {
   GlobalStyles,
 } from '@material-ui/core'
 
-const primaryColor = '#fa8c16'
-const secondaryColor = '#237bffe0'
+import palette from './palette'
 
-function createTheme(mode) {
+const defaultPrimaryColor = palette.blue
+const defaultSecondaryColor = palette.orange
+
+function createTheme({ mode, primary, secondary }) {
   return createMuiTheme({
     palette: {
       mode,
       primary: {
-        main: primaryColor,
+        main: primary,
       },
       secondary: {
-        main: secondaryColor,
+        main: secondary,
       },
     },
     components: {
@@ -31,19 +33,24 @@ function createTheme(mode) {
 
 export default function ThemeProvider({ children }) {
   const [mode, setMode] = React.useState('light')
+  const [primary, setPrimary] = React.useState(defaultPrimaryColor)
+  const [secondary, setSecondary] = React.useState(defaultSecondaryColor)
+
   const nextMode = mode === 'dark' ? 'light' : 'dark'
 
   const theme = React.useMemo(
     () => ({
       // Material ui theme object
-      ...createTheme(mode),
+      ...createTheme({ mode, primary, secondary }),
 
       // Extend default object with extra stuff
       isThemeDark: mode === 'dark',
       isThemeLight: mode === 'light',
       toggleTheme: () => setMode(nextMode),
+      setPrimaryColor: setPrimary,
+      setSecondaryColor: setSecondary,
     }),
-    [mode, nextMode],
+    [mode, nextMode, primary, secondary],
   )
 
   return (
