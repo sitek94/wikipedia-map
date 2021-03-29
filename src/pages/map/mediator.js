@@ -6,6 +6,7 @@ import { useMapStore } from './store'
 
 const defaultMarkerColor = 'primary'
 const savedMarkerColor = 'secondary'
+export const defaultZoom = 18
 
 const listeners = {}
 let map
@@ -65,18 +66,7 @@ function useMapMediator() {
     },
   ] = useMapStore()
 
-  async function openArticleInModal(pageid) {
-    const response = await wikipedia.getArticleInfo({ pageid })
-    const article = Object.values(response.query.pages)[0]
-
-    setIsModalVisible(true)
-    setCurrentArticle({
-      title: article.title,
-      url: article.fullurl,
-      pageid,
-      isSaved: ArticlesDatabase.isArticleSaved(pageid),
-    })
-  }
+  // Listeners
 
   async function onMapDragged(event) {
     const response = await wikipedia.getArticles({ coord: event.center })
@@ -98,10 +88,8 @@ function useMapMediator() {
     setIsGoogleApiLoaded(true)
   }
 
-  function onSearchBoxPlaceClicked({ coords }) {
-    if (map) {
-      map.setCenter(coords)
-    }
+  function onSearchBoxPlaceClicked({ lat, lng }) {
+    setMapCenter({ lat, lng })
   }
 
   async function onMarkerClicked({ pageid }) {
@@ -134,9 +122,7 @@ function useMapMediator() {
   }
 
   function onSavedArticleLocationClicked({ lat, lng }) {
-    if (map) {
-      map.setCenter({ lat, lng })
-    }
+    setMapCenter({ lat, lng })
   }
 
   attachListener('mapDragged', debouncedOnMapDragged)
@@ -147,6 +133,28 @@ function useMapMediator() {
   attachListener('savedArticlesExpanded', onSavedArticlesExpanded)
   attachListener('savedArticleItemClicked', onSavedArticleItemClicked)
   attachListener('savedArticleLocationClicked', onSavedArticleLocationClicked)
+
+  // Helpers
+
+  async function openArticleInModal(pageid) {
+    const response = await wikipedia.getArticleInfo({ pageid })
+    const article = Object.values(response.query.pages)[0]
+
+    setIsModalVisible(true)
+    setCurrentArticle({
+      title: article.title,
+      url: article.fullurl,
+      pageid,
+      isSaved: ArticlesDatabase.isArticleSaved(pageid),
+    })
+  }
+
+  function setMapCenter({ lat, lng }) {
+    if (map) {
+      map.setCenter({ lat, lng })
+      map.setZoom(defaultZoom)
+    }
+  }
 }
 
 function MapMediator() {

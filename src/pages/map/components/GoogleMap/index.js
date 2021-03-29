@@ -1,17 +1,16 @@
 import * as React from 'react'
 import GoogleMapReact from 'google-map-react'
-
-import { emit } from 'pages/map/mediator'
-import { useMapStore } from 'pages/map/store'
 import { useTheme } from '@material-ui/core'
-import Marker from 'pages/map/components/Marker'
+
+import { emit, defaultZoom } from '../../mediator'
+import { useMapStore } from '../../store'
+import Marker from '../Marker'
 import styles from './styles'
 
 const warsawCoord = {
   lat: 52.247744131869645,
   lng: 21.015043804607192,
 }
-const defaultZoom = 15.5
 
 export default function GoogleMap() {
   const [{ markers }] = useMapStore()

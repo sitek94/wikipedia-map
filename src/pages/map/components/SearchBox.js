@@ -18,9 +18,9 @@ export default function SearchBox(props) {
 
       searchBoxListener = searchBox.addListener('places_changed', () => {
         const place = searchBox.getPlaces()[0]
-        const coords = place.geometry.location.toJSON()
+        const { lat, lng } = place.geometry.location.toJSON()
 
-        emit('searchBoxPlaceClicked', { coords })
+        emit('searchBoxPlaceClicked', { lat, lng })
       })
     }
 
