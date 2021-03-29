@@ -7,13 +7,13 @@ defaults.mutator = (currentState, producer) => produce(currentState, producer)
 const Store = createStore({
   initialState: {
     markers: [],
-    savedArticlesIds: [],
     isGoogleApiLoaded: false,
     isModalVisible: false,
     currentArticle: {
       title: '',
       url: '',
       pageid: '',
+      isSaved: false,
     },
     isSidebarVisible: false,
   },
@@ -28,19 +28,6 @@ const Store = createStore({
 
       setState(draft => {
         draft.markers.push(...newMarkers)
-      })
-    },
-    toggleSavedArticleId: id => ({ setState, getState }) => {
-      const { savedArticlesIds } = getState()
-      const index = savedArticlesIds.indexOf(id)
-      const idExists = index !== -1
-
-      setState(draft => {
-        if (idExists) {
-          draft.savedArticlesIds.splice(index, 1)
-        } else {
-          draft.savedArticlesIds.push(id)
-        }
       })
     },
     setSavedArticlesIds: ids => ({ setState, getState }) => {
@@ -62,13 +49,20 @@ const Store = createStore({
         draft.isModalVisible = isVisible
       })
     },
-    setCurrentArticle: ({ pageid, title, url }) => ({ setState }) => {
+    setCurrentArticle: ({ pageid, title, url, isSaved }) => ({ setState }) => {
       setState(draft => {
         draft.currentArticle = {
           pageid,
           title,
           url,
+          isSaved,
         }
+      })
+    },
+    toggleCurrentArticle: () => ({ setState, getState }) => {
+      const { isSaved } = getState().currentArticle
+      setState(draft => {
+        draft.currentArticle.isSaved = !isSaved
       })
     },
 

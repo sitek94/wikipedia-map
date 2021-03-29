@@ -19,16 +19,15 @@ import { emit } from 'pages/map/mediator'
 
 export default function ArticleModal() {
   const [
-    { isModalVisible, currentArticle, savedArticlesIds },
+    { isModalVisible, currentArticle },
     { setIsModalVisible },
   ] = useMapStore()
+
+  const { title, url, isSaved } = currentArticle
 
   const handleClose = () => {
     setIsModalVisible(false)
   }
-
-  const { title, url, pageid } = currentArticle
-  const isSaved = savedArticlesIds.includes(pageid)
 
   const heartButtonLabel = isSaved
     ? 'add article to saved'
