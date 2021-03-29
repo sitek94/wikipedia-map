@@ -65,6 +65,19 @@ function useMapMediator() {
     },
   ] = useMapStore()
 
+  async function openArticleInModal(pageid) {
+    const response = await wikipedia.getArticleInfo({ pageid })
+    const article = Object.values(response.query.pages)[0]
+
+    setIsModalVisible(true)
+    setCurrentArticle({
+      title: article.title,
+      url: article.fullurl,
+      pageid,
+      isSaved: ArticlesDatabase.isArticleSaved(pageid),
+    })
+  }
+
   async function onMapDragged(event) {
     const response = await wikipedia.getArticles({ coord: event.center })
     const articles = response.query.geosearch
@@ -92,16 +105,7 @@ function useMapMediator() {
   }
 
   async function onMarkerClicked({ pageid }) {
-    const response = await wikipedia.getArticleInfo({ pageid })
-    const article = Object.values(response.query.pages)[0]
-
-    setIsModalVisible(true)
-    setCurrentArticle({
-      title: article.title,
-      url: article.fullurl,
-      pageid,
-      isSaved: ArticlesDatabase.isArticleSaved(pageid),
-    })
+    openArticleInModal(pageid)
   }
 
   async function onModalHeartClicked() {
@@ -125,6 +129,10 @@ function useMapMediator() {
     setSavedArticles(ArticlesDatabase.getArticles())
   }
 
+  function onSavedArticleItemClicked({ pageid }) {
+    openArticleInModal(pageid)
+  }
+
   function onSavedArticleLocationClicked({ lat, lng }) {
     if (map) {
       map.setCenter({ lat, lng })
@@ -137,6 +145,7 @@ function useMapMediator() {
   attachListener('markerClicked', onMarkerClicked)
   attachListener('modalHeartClicked', onModalHeartClicked)
   attachListener('savedArticlesExpanded', onSavedArticlesExpanded)
+  attachListener('savedArticleItemClicked', onSavedArticleItemClicked)
   attachListener('savedArticleLocationClicked', onSavedArticleLocationClicked)
 }
 

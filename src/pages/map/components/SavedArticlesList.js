@@ -23,7 +23,7 @@ export default function SavedArticlesList() {
       {savedArticles.map(({ pageid, title, lat, lng }) => (
         <ListItem
           key={pageid}
-          onClick={() => emit('sidebarSavedArticleClick', { lat, lng })}
+          onClick={() => emit('savedArticleItemClicked', { pageid })}
           button
         >
           <ListItemText primary={title} />
