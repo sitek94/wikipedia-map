@@ -4,6 +4,7 @@ import {
   createMuiTheme,
   CssBaseline,
   darkScrollbar,
+  GlobalStyles,
 } from '@material-ui/core'
 
 const primaryColor = '#fa8c16'
@@ -45,10 +46,12 @@ export default function ThemeProvider({ children }) {
     [mode, nextMode],
   )
 
-  console.log(theme)
-
   return (
     <MuiThemeProvider theme={theme}>
+      <GlobalStyles
+        // Make search-box results appear above the drawer
+        styles={{ '.pac-container': { zIndex: theme.zIndex.drawer + 1 } }}
+      />
       <CssBaseline />
       {children}
     </MuiThemeProvider>
