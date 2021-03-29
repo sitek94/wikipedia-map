@@ -3,6 +3,7 @@ import { AppBar, Box, Toolbar, useTheme } from '@material-ui/core'
 
 import { SidebarToggler, SidebarProvider } from 'components/Sidebar'
 import ThemeToggler from 'components/ThemeToggler'
+import GitHubLink from 'components/GitHubLink'
 
 export default function Layout({ children }) {
   return (
@@ -39,6 +40,7 @@ export function Header({ children }) {
         </Box>
 
         <ThemeToggler />
+        <GitHubLink />
       </Toolbar>
     </AppBar>
   )
