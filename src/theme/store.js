@@ -1,26 +1,24 @@
 import { createStore, createHook, defaults } from 'react-sweet-state'
+import { produce } from 'immer'
 
 import palette from './palette'
-import { produce } from 'immer'
+import { darkMode, getNextMode } from './utils'
 
 defaults.devtools = true
 defaults.mutator = (currentState, producer) => produce(currentState, producer)
 
-const defaultMode = 'dark'
-const defaultPrimaryColor = palette.blue
-const defaultSecondaryColor = palette.orange
-
 const Store = createStore({
   initialState: {
-    mode: defaultMode,
-    primary: defaultPrimaryColor,
-    secondary: defaultSecondaryColor,
+    mode: darkMode,
+    primary: palette.blue,
+    secondary: palette.orange,
   },
   actions: {
     toggleThemeMode: () => ({ setState, getState }) => {
       const { mode } = getState()
+
       setState(draft => {
-        draft.mode = mode === 'dark' ? 'light' : 'dark'
+        draft.mode = getNextMode(mode)
       })
     },
   },

@@ -1,33 +1,13 @@
 import * as React from 'react'
 import {
-  ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
   CssBaseline,
-  darkScrollbar,
   GlobalStyles,
+  ThemeProvider as MuiThemeProvider,
 } from '@material-ui/core'
 
 import { ThemeMediator } from './mediator'
 import { useThemeStore } from './store'
-
-function createTheme({ mode, primary, secondary }) {
-  return createMuiTheme({
-    palette: {
-      mode,
-      primary: {
-        main: primary,
-      },
-      secondary: {
-        main: secondary,
-      },
-    },
-    components: {
-      MuiCssBaseline: {
-        styleOverrides: mode === 'dark' ? { body: darkScrollbar() } : null,
-      },
-    },
-  })
-}
+import { createTheme } from './utils'
 
 export default function ThemeProvider({ children }) {
   const [{ mode, primary, secondary }] = useThemeStore()
