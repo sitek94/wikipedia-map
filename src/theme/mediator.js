@@ -1,3 +1,5 @@
+import { useThemeStore } from './store'
+
 const listeners = {}
 function attachListener(eventName, listener) {
   listeners[eventName] = listener
@@ -14,8 +16,10 @@ function emit(eventName, ...args) {
 }
 
 function useThemeMediator() {
+  const [, { toggleThemeMode }] = useThemeStore()
+
   function onThemeModeToggled() {
-    console.log('Theme Mode Toggled')
+    toggleThemeMode()
   }
 
   attachListener('themeModeToggled', onThemeModeToggled)

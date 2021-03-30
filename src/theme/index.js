@@ -31,7 +31,6 @@ function createTheme({ mode, primary, secondary }) {
 
 export default function ThemeProvider({ children }) {
   const [{ mode, primary, secondary }] = useThemeStore()
-
   const theme = React.useMemo(
     () => ({
       // Material ui theme object

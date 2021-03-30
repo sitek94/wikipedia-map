@@ -20,7 +20,7 @@ const Store = createStore({
     toggleThemeMode: () => ({ setState, getState }) => {
       const { mode } = getState()
       setState(draft => {
-        draft.mode = !mode
+        draft.mode = mode === 'dark' ? 'light' : 'dark'
       })
     },
   },
