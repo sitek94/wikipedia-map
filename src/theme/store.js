@@ -28,6 +28,20 @@ const Store = createStore({
         draft.mode = mode
       })
     },
+    setPrimaryColor: color => ({ setState, getState }) => {
+      if (!color) return
+
+      setState(draft => {
+        draft.primary = color
+      })
+    },
+    setSecondaryColor: color => ({ setState, getState }) => {
+      if (!color) return
+
+      setState(draft => {
+        draft.secondary = color
+      })
+    },
   },
   name: 'theme',
 })

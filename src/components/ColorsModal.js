@@ -10,10 +10,9 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Typography from '@material-ui/core/Typography'
 
 import palette from 'theme/palette'
+import { emit } from 'theme/mediator'
 
 export default function ColorsModal({ onClose, open }) {
-  const { setPrimaryColor, setSecondaryColor } = useTheme()
-
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Edit app colors</DialogTitle>
@@ -23,7 +22,7 @@ export default function ColorsModal({ onClose, open }) {
           <ColorSelectPane
             color="primary"
             title="Primary color"
-            onSelect={color => setPrimaryColor(palette[color])}
+            onSelect={color => emit('primaryColorSelected', palette[color])}
           />
 
           <Divider flexItem orientation="vertical" />
@@ -31,7 +30,7 @@ export default function ColorsModal({ onClose, open }) {
           <ColorSelectPane
             color="secondary"
             title="Secondary color"
-            onSelect={color => setSecondaryColor(palette[color])}
+            onSelect={color => emit('secondaryColorSelected', palette[color])}
           />
         </Box>
       </DialogContent>

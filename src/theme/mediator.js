@@ -20,23 +20,42 @@ function emit(eventName, ...args) {
 }
 
 function useThemeMediator() {
-  const [{ mode }, { toggleThemeMode, setThemeMode }] = useThemeStore()
+  const [
+    { mode },
+    { setThemeMode, setPrimaryColor, setSecondaryColor },
+  ] = useThemeStore()
 
   React.useEffect(() => {
-    initTheme()
+    setThemeFromDatabase()
 
-    function initTheme() {
+    function setThemeFromDatabase() {
       const savedTheme = ThemeDatabase.getTheme()
       setThemeMode(savedTheme.mode)
+      setPrimaryColor(savedTheme.primary)
+      setSecondaryColor(savedTheme.secondary)
     }
-  }, [setThemeMode])
+  }, [setThemeMode, setPrimaryColor, setSecondaryColor])
 
   function onThemeModeToggled() {
-    ThemeDatabase.updateTheme('mode', getNextMode(mode))
-    toggleThemeMode()
+    const nextMode = getNextMode(mode)
+
+    ThemeDatabase.updateTheme('mode', nextMode)
+    setThemeMode(nextMode)
+  }
+
+  function onPrimaryColorSelected(color) {
+    ThemeDatabase.updateTheme('primary', color)
+    setPrimaryColor(color)
+  }
+
+  function onSecondaryColorSelected(color) {
+    ThemeDatabase.updateTheme('secondary', color)
+    setSecondaryColor(color)
   }
 
   attachListener('themeModeToggled', onThemeModeToggled)
+  attachListener('primaryColorSelected', onPrimaryColorSelected)
+  attachListener('secondaryColorSelected', onSecondaryColorSelected)
 }
 
 function ThemeMediator() {
