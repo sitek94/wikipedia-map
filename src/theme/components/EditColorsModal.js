@@ -17,9 +17,9 @@ export default function EditColorsModal({ onClose, open }) {
       <DialogContent dividers>
         <Box
           sx={{
-            display: 'flex',
+            display: 'grid',
             gap: 2,
-            flexDirection: { xs: 'column', sm: 'row' },
+            gridAutoFlow: { xs: 'row', sm: 'column' },
           }}
         >
           <SelectColorPane
