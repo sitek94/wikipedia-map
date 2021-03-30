@@ -21,6 +21,13 @@ const Store = createStore({
         draft.mode = getNextMode(mode)
       })
     },
+    setThemeMode: mode => ({ setState, getState }) => {
+      if (!mode) return
+
+      setState(draft => {
+        draft.mode = mode
+      })
+    },
   },
   name: 'theme',
 })

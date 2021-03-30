@@ -1,4 +1,8 @@
+import * as React from 'react'
+
+import ThemeDatabase from 'services/theme-database'
 import { useThemeStore } from './store'
+import { getNextMode } from './utils'
 
 const listeners = {}
 function attachListener(eventName, listener) {
@@ -16,9 +20,19 @@ function emit(eventName, ...args) {
 }
 
 function useThemeMediator() {
-  const [, { toggleThemeMode }] = useThemeStore()
+  const [{ mode }, { toggleThemeMode, setThemeMode }] = useThemeStore()
+
+  React.useEffect(() => {
+    initTheme()
+
+    function initTheme() {
+      const savedTheme = ThemeDatabase.getTheme()
+      setThemeMode(savedTheme.mode)
+    }
+  }, [setThemeMode])
 
   function onThemeModeToggled() {
+    ThemeDatabase.updateTheme('mode', getNextMode(mode))
     toggleThemeMode()
   }
 
