@@ -7,12 +7,16 @@ import SearchBox from './components/SearchBox'
 import GoogleMap from './components/GoogleMap'
 import ArticleModal from './components/ArticleModal'
 import SavedArticlesList from './components/SavedArticlesList'
+import { Hidden } from '@material-ui/core'
 
 export default function MapPage() {
   return (
     <Layout>
       <Header>
-        <Logo />
+        <Hidden smDown>
+          <Logo />
+        </Hidden>
+
         <SearchBox />
       </Header>
 
