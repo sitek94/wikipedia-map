@@ -2,7 +2,7 @@ import * as React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import InvertColorsIcon from '@material-ui/icons/InvertColors'
 
-import ColorsModal from '../theme/components/ColorsModal'
+import EditColorsModal from './EditColorsModal'
 import { Tooltip } from '@material-ui/core'
 
 export default function EditColorsToggler() {
@@ -17,7 +17,7 @@ export default function EditColorsToggler() {
           <InvertColorsIcon />
         </IconButton>
       </Tooltip>
-      <ColorsModal onClose={closeModal} open={isOpen} />
+      <EditColorsModal onClose={closeModal} open={isOpen} />
     </>
   )
 }

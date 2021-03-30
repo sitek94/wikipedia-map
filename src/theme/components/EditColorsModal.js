@@ -9,7 +9,7 @@ import SelectColorPane from './SelectColorPane'
 import palette from 'theme/palette'
 import { emit } from 'theme/mediator'
 
-export default function ColorsModal({ onClose, open }) {
+export default function EditColorsModal({ onClose, open }) {
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Edit app colors</DialogTitle>
