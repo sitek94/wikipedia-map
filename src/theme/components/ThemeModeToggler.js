@@ -5,7 +5,7 @@ import SunIcon from '@material-ui/icons/Brightness7'
 
 import { emit } from 'theme/mediator'
 
-export default function SidebarToggler() {
+export default function ThemeModeToggler() {
   const { isThemeDark } = useTheme()
 
   const label = 'Toggle light/dark theme'
