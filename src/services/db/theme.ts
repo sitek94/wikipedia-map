@@ -1,7 +1,9 @@
+import { UserTheme } from 'types'
+
 const themeKey = 'theme'
 
 function ThemeDatabase() {
-  let theme = getTheme()
+  let theme: UserTheme = {}
 
   return {
     getTheme,
@@ -13,16 +15,19 @@ function ThemeDatabase() {
       const savedTheme = localStorage.getItem(themeKey)
 
       if (savedTheme) {
-        return JSON.parse(savedTheme)
-      } else {
-        return {}
+        return JSON.parse(savedTheme) as UserTheme
       }
     } catch (error) {
       console.error('Something went wrong when getting the theme', error)
     }
+
+    return {}
   }
 
-  function updateTheme(prop, value) {
+  function updateTheme<K extends keyof UserTheme>(
+    prop: K,
+    value: UserTheme[K],
+  ) {
     try {
       theme[prop] = value
 
