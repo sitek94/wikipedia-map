@@ -2,9 +2,9 @@ import * as React from 'react'
 import { AppBar, Box, Toolbar, useTheme } from '@material-ui/core'
 
 import { SidebarToggler, SidebarProvider } from 'components/Sidebar'
-import ThemeToggler from 'components/ThemeToggler'
+import ThemeModeToggler from 'theme/components/ThemeModeToggler'
 import GitHubLink from 'components/GitHubLink'
-import ColorsModalToggler from 'components/ColorsModalToggler'
+import EditColorsToggler from 'theme/components/EditColorsToggler'
 
 export default function Layout({ children }) {
   return (
@@ -40,8 +40,8 @@ export function Header({ children }) {
           {children}
         </Box>
 
-        <ThemeToggler />
-        <ColorsModalToggler />
+        <ThemeModeToggler />
+        <EditColorsToggler />
         <GitHubLink />
       </Toolbar>
     </AppBar>
