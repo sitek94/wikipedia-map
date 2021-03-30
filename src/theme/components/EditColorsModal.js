@@ -15,7 +15,13 @@ export default function EditColorsModal({ onClose, open }) {
       <DialogTitle>Edit app colors</DialogTitle>
 
       <DialogContent dividers>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            flexDirection: { xs: 'column', sm: 'row' },
+          }}
+        >
           <SelectColorPane
             color="primary"
             title="Primary color"
