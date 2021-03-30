@@ -54,7 +54,7 @@ export default function SavedArticlesList() {
   return (
     <CollapsibleListItem
       primary="Saved articles"
-      icon={<HeartIcon style={{ color: red[500] }} />}
+      icon={<HeartIcon color="secondary" />}
       onExpand={() => emit('savedArticlesExpanded')}
     >
       {savedArticles.length ? articlesList : emptyListMessage}
