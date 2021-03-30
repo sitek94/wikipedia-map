@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import ThemeDatabase from 'services/theme-database'
+import ThemeDatabase from 'services/db/theme'
 import { useThemeStore } from './store'
 import { getNextMode } from './utils'
 

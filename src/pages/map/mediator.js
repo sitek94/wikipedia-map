@@ -1,7 +1,7 @@
 import { useDebouncedCallback } from 'use-debounce'
 
 import wikipedia from 'services/api/wikipedia'
-import ArticlesDatabase from 'services/articles-database'
+import ArticlesDatabase from 'services/db/articles'
 import { useMapStore } from './store'
 
 const defaultMarkerColor = 'primary'
