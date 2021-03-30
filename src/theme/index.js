@@ -7,10 +7,8 @@ import {
   GlobalStyles,
 } from '@material-ui/core'
 
-import palette from './palette'
-
-const defaultPrimaryColor = palette.blue
-const defaultSecondaryColor = palette.orange
+import { ThemeMediator } from './mediator'
+import { useThemeStore } from './store'
 
 function createTheme({ mode, primary, secondary }) {
   return createMuiTheme({
@@ -32,11 +30,7 @@ function createTheme({ mode, primary, secondary }) {
 }
 
 export default function ThemeProvider({ children }) {
-  const [mode, setMode] = React.useState('light')
-  const [primary, setPrimary] = React.useState(defaultPrimaryColor)
-  const [secondary, setSecondary] = React.useState(defaultSecondaryColor)
-
-  const nextMode = mode === 'dark' ? 'light' : 'dark'
+  const [{ mode, primary, secondary }] = useThemeStore()
 
   const theme = React.useMemo(
     () => ({
@@ -46,15 +40,13 @@ export default function ThemeProvider({ children }) {
       // Extend default object with extra stuff
       isThemeDark: mode === 'dark',
       isThemeLight: mode === 'light',
-      toggleTheme: () => setMode(nextMode),
-      setPrimaryColor: setPrimary,
-      setSecondaryColor: setSecondary,
     }),
-    [mode, nextMode, primary, secondary],
+    [mode, primary, secondary],
   )
 
   return (
     <MuiThemeProvider theme={theme}>
+      <ThemeMediator />
       <GlobalStyles
         // Make search-box results appear above the drawer
         styles={{ '.pac-container': { zIndex: theme.zIndex.drawer + 1 } }}
