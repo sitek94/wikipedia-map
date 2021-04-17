@@ -1,4 +1,8 @@
-const palette = {
+import { PaletteColor } from '@material-ui/core'
+
+export type Palette = Record<string, PaletteColor['main']>
+
+const palette: Palette = {
   red: '#f44336',
   pink: '#e91e63',
   purple: '#9c27b0',
